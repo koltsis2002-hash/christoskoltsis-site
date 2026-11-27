@@ -69,14 +69,14 @@ const LIFE: Slide[] = [
   { tag: 'Επόμενο βήμα', title: 'Ας το δούμε για τη δική σου περίπτωση', body: <Next text="Πόσο κεφάλαιο, για πόσα χρόνια και τι ήδη έχεις. Τα βρίσκουμε μαζί, με τα δικά σου νούμερα." /> },
 ]
 
-export const DECKS: Record<DeckKey, { word: string; label: string; lead: string; slides: Slide[] }> = {
-  ygeia: { word: 'Υγεία', label: 'Πώς δουλεύει η ασφάλεια υγείας', lead: 'Τι καλύπτει, πού ισχύει και τι να ρωτήσεις πριν διαλέξεις. Με απλά λόγια.', slides: HEALTH },
-  zoi: { word: 'Ζωή', label: 'Πώς δουλεύει η ασφάλεια ζωής', lead: 'Τι κάνει για τους δικούς σου και πώς βρίσκεις πόση χρειάζεσαι. Με απλά λόγια.', slides: LIFE },
-  apotamieusi: { word: 'Αποταμίευση', label: 'Πώς δουλεύει η αποταμίευση', lead: 'Πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο, και τι μπορεί να γίνει με τα χρόνια.', slides: SAVINGS },
+export const DECKS: Record<DeckKey, { word: string; upper: string; label: string; lead: string; slides: Slide[] }> = {
+  ygeia: { word: 'Υγεία', upper: 'ΥΓΕΙΑ', label: 'Πώς δουλεύει η ασφάλεια υγείας', lead: 'Τι καλύπτει, πού ισχύει και τι να ρωτήσεις πριν διαλέξεις. Με απλά λόγια.', slides: HEALTH },
+  zoi: { word: 'Ζωή', upper: 'ΖΩΗ', label: 'Πώς δουλεύει η ασφάλεια ζωής', lead: 'Τι κάνει για τους δικούς σου και πώς βρίσκεις πόση χρειάζεσαι. Με απλά λόγια.', slides: LIFE },
+  apotamieusi: { word: 'Αποταμίευση', upper: 'ΑΠΟΤΑΜΙΕΥΣΗ', label: 'Πώς δουλεύει η αποταμίευση', lead: 'Πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο, και τι μπορεί να γίνει με τα χρόνια.', slides: SAVINGS },
 }
 
 // Christos wants these three topics always shown big, bold and in the accent colour
-export const Topic = ({ k, sm = false }: { k: DeckKey; sm?: boolean }) => <strong className={'topic' + (sm ? ' sm' : '')}>{DECKS[k].word}</strong>
+export const Topic = ({ k, sm = false }: { k: DeckKey; sm?: boolean }) => <strong className={'topic' + (sm ? ' sm' : '')}>{DECKS[k].upper}</strong>
 
 export function TopicCard({ k }: { k: DeckKey }) {
   return <a className="card" href={href(k)}><Topic k={k} /><p>{DECKS[k].lead}</p><span className="learn">Μάθε για αυτήν →</span></a>

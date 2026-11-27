@@ -10,7 +10,7 @@ import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
-const NAV = [['ygeia', 'Υγεία'], ['zoi', 'Ζωή'], ['apotamieusi', 'Αποταμίευση']]
+const NAV = [['ygeia', 'ΥΓΕΙΑ'], ['zoi', 'ΖΩΗ'], ['apotamieusi', 'ΑΠΟΤΑΜΙΕΥΣΗ']]
 const MORE = [['stigmes', 'Στιγμές ζωής'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επικοινωνία']]
 const DECK_KEYS = Object.keys(DECKS) as DeckKey[]
 
@@ -49,7 +49,7 @@ function Home() {
         <p className="rise" style={{ ['--d' as string]: 7 }}>Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα. Σε ακούω πρώτα, σου εξηγώ απλά και αποφασίζεις εσύ.</p>
         <div className="actions rise" style={{ ['--d' as string]: 8 }}><a className="btn" href={href('epikoinonia')}>Πάρε με τηλέφωνο</a><a className="btn ghost" href={href('stigmes')}>Τι σε απασχολεί;</a></div>
       </div>
-      <figure className="cut"><span className="sig-w sig-l" aria-hidden="true">Χρήστος</span><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /><span className="sig-w sig-r" aria-hidden="true">Κόλτσης</span></figure>
+      <figure className="cut"><span className="sig-w sig-l" aria-hidden="true">ΧΡΗΣΤΟΣ</span><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /><span className="sig-w sig-r" aria-hidden="true">ΚΟΛΤΣΗΣ</span></figure>
     </section>
 
     <section className="about2">
@@ -107,7 +107,7 @@ function MomentPage({ id }: { id: string }) {
     <div className={'stack' + (open != null ? ' has-open' : '')}>{m.needs.map((n, j) => <article id={'need-' + j} className={'card step' + (open === j ? ' open' : '')} key={n.t} style={{ ['--i' as string]: j }}>
       <span className="step-n">{j + 1}</span>
       <div className="step-body"><h3>{n.t}</h3><p>{n.d}</p>
-        {n.deck && <button type="button" className="step-toggle" aria-expanded={open === j} aria-controls={'deck-' + j} onClick={() => toggle(j)}>{open === j ? 'Κλείσε ▴' : <><Topic k={n.deck} sm /> · Μάθε για αυτήν ▾</>}</button>}
+        {n.deck && <button type="button" className="step-toggle" aria-expanded={open === j} aria-controls={'deck-' + j} onClick={() => toggle(j)}>{open === j ? <><Topic k={n.deck} sm /><span className="learn">Κλείσε ▴</span></> : <><Topic k={n.deck} sm /><span className="learn">Μάθε για αυτήν ▾</span></>}</button>}
         {n.deck && open === j && <div id={'deck-' + j} className="step-deck"><Deck k={n.deck} bare /></div>}
       </div></article>)}</div>
     <p className="small disclaimer">Γενική ενημέρωση. Τι ακριβώς σου ταιριάζει εξαρτάται από την ηλικία, το εισόδημα και όσα ήδη έχεις.</p>

@@ -304,7 +304,7 @@ header{background:linear-gradient(var(--bg) 75%,rgba(240,240,240,0))}
 .sav-deck{scroll-margin-top:100px}.step{scroll-margin-top:96px}
 /* ---- Arial, χωρίς πλάγια · θέματα ΥΓΕΙΑ / ΖΩΗ / ΑΠΟΤΑΜΙΕΥΣΗ ---- */
 em,i,blockquote{font-style:normal}
-.topic{display:block;font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:.02em;text-transform:uppercase;color:var(--accent)}
+.topic{display:block;font-weight:700;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:.02em;color:var(--accent)}
 .topic.sm{display:inline;font-size:20px;letter-spacing:.03em}
 .learn{font-weight:700;color:var(--text)}
 .deck-more .card{gap:10px;border-width:2px}
@@ -312,7 +312,7 @@ em,i,blockquote{font-style:normal}
 .h1-sub{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:400;color:var(--muted);margin-top:8px}
 .hero-title{max-width:14ch;font-size:clamp(36px,6vw,76px);text-wrap:balance}
 /* ---- Απλή πλοήγηση: ΥΓΕΙΑ · ΖΩΗ · ΑΠΟΤΑΜΙΕΥΣΗ ---- */
-.pill nav a.nav-topic{font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:15.5px;color:var(--text)}
+.pill nav a.nav-topic{font-weight:700;letter-spacing:.03em;font-size:15.5px;color:var(--text)}
 .pill nav a.nav-topic[aria-current=page]{color:var(--on)}
 .nav-more{display:none}
 @media(max-width:899px){
@@ -333,7 +333,7 @@ em,i,blockquote{font-style:normal}
 /* ---- Το ονοματεπώνυμο αριστερά και δεξιά της φωτογραφίας, αχνό ---- */
 .cut{display:flex;align-items:center;justify-content:center;gap:4px;width:auto}
 .cut img{flex:none}
-.sig-w{flex:none;writing-mode:vertical-rl;text-transform:uppercase;font-weight:700;font-size:var(--sw);line-height:1;letter-spacing:.08em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,rgba(229,100,16,.24),rgba(229,100,16,.08));-webkit-background-clip:text;background-clip:text;user-select:none;pointer-events:none;transform:translate3d(calc(var(--mx,0)*-14px),0,0)}
+.sig-w{flex:none;writing-mode:vertical-rl;font-weight:700;font-size:var(--sw);line-height:1;letter-spacing:.08em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,rgba(229,100,16,.24),rgba(229,100,16,.08));-webkit-background-clip:text;background-clip:text;user-select:none;pointer-events:none;transform:translate3d(calc(var(--mx,0)*-14px),0,0)}
 .sig-l{transform:rotate(180deg) translate3d(calc(var(--mx,0)*14px),0,0)}
 .hero2{--sw:clamp(64px,7.4vw,112px)}
 @media(min-width:860px){.cut img{max-height:calc(100svh - 120px);width:auto}}
@@ -344,3 +344,8 @@ em,i,blockquote{font-style:normal}
   .cut img{max-height:min(calc(100svh - 140px),700px)}
   .hero-title{font-size:clamp(40px,4.8vw,70px)}
 }
+/* Κουμπί θέματος: η λέξη στη μέση, το «Μάθε για αυτήν» ακριβώς από κάτω */
+.step-toggle{align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:100%;min-height:0;padding:14px 16px;border-radius:18px;text-align:center;line-height:1.2}
+.step-toggle .topic.sm{display:block;font-size:clamp(24px,6vw,30px);letter-spacing:.03em}
+.step-toggle .learn{font-size:16px}
+.step.open .step-toggle .topic,.step.open .step-toggle .learn{color:var(--on)}
