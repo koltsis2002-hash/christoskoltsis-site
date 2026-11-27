@@ -4,3 +4,4 @@ bundle.html
 .parcel-cache
 .DS_Store
 dist-ssr
+dist-preview

@@ -1,12 +1,20 @@
 import { POSTS } from './data'
 
 export const BASE = import.meta.env.BASE_URL
+// Preview builds (claude.ai artifact) can't use real paths, so pages switch on #key there
+export const HASH = import.meta.env.VITE_HASH_ROUTES === 'true'
 
 export const PAGES = ['arxiki', 'idiotes', 'epixeiriseis', 'programmata', 'ergaleia', 'syntaxi', 'checkup', 'kefalaia', 'konta', 'blog', 'epikoinonia', 'rantevou', 'aporrito'] as const
 export const ROUTES: string[] = [...PAGES, ...POSTS.map(p => 'arthro-' + p.id)]
 
 export const href = (key: string) =>
-  key === 'arxiki' ? BASE : BASE + (key.startsWith('arthro-') ? 'arthra/' + key.slice(7) : key) + '/'
+  HASH ? '#' + key : key === 'arxiki' ? BASE : BASE + (key.startsWith('arthro-') ? 'arthra/' + key.slice(7) : key) + '/'
+
+export function currentKey() {
+  if (!HASH) return keyFromPath(location.pathname)
+  const key = location.hash.slice(1).split('#')[0]
+  return ROUTES.includes(key) ? key : 'arxiki'
+}
 
 export function keyFromPath(pathname: string) {
   const rest = pathname.startsWith(BASE) ? pathname.slice(BASE.length) : pathname.replace(/^\//, '')

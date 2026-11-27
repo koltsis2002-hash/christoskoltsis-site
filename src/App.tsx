@@ -5,7 +5,7 @@ import mark from './mark'
 import logo from './logo'
 import { useDepth, useFx } from './Fx'
 import { Pension, Checkup, ToolsPage, Funds, Near } from './Tools'
-import { href, keyFromPath, meta, ROUTES, BASE } from './routes'
+import { href, keyFromPath, currentKey, meta, ROUTES, BASE, HASH } from './routes'
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
@@ -206,7 +206,7 @@ function Privacy() {
 }
 
 export default function App({ initial }: { initial?: string }) {
-  const [route, setRoute] = useState(() => initial ?? keyFromPath(location.pathname))
+  const [route, setRoute] = useState(() => initial ?? currentKey())
   const [menu, setMenu] = useState(false)
   useEffect(() => {
     const go = (key: string) => {
@@ -214,6 +214,7 @@ export default function App({ initial }: { initial?: string }) {
       const m = meta(key); document.title = m.title
       document.querySelector('meta[name=description]')?.setAttribute('content', m.description)
     }
+    if (HASH) { const f = () => go(currentKey()); addEventListener('hashchange', f); return () => removeEventListener('hashchange', f) }
     const old = location.hash.slice(1)
     if (location.pathname === BASE && ROUTES.includes(old) && old !== 'arxiki') { history.replaceState(null, '', href(old)); go(old) }
     const click = (e: MouseEvent) => {

@@ -6,6 +6,8 @@ export default defineConfig({
   // '/christoskoltsis-site/' while the site lives on github.io, '/' once the domain is connected
   base: process.env.SITE_BASE || '/',
   plugins: [react()],
+  // The artifact preview is one self-contained file, so images go inline there
+  build: process.env.VITE_HASH_ROUTES === 'true' ? { assetsInlineLimit: 1e8, outDir: 'dist-preview' } : {},
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
