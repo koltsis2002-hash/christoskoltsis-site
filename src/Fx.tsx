@@ -19,7 +19,7 @@ export function useDepth(ref: RefObject<HTMLElement | null>) {
   }, [ref])
 }
 
-/** Κάρτες που γέρνουν σε 3D με το ποντίκι + εμφάνιση με κύλιση */
+/** Εμφάνιση με κύλιση */
 export function useFx(route: string) {
   useEffect(() => {
     if (reduced()) { document.querySelectorAll('.reveal').forEach(e => e.classList.add('in')); return }
@@ -29,19 +29,4 @@ export function useFx(route: string) {
     }), 30)
     return () => { clearTimeout(t); io.disconnect() }
   }, [route])
-  useEffect(() => {
-    if (reduced() || matchMedia('(hover: none)').matches) return
-    let cur: HTMLElement | null = null
-    const reset = (c: HTMLElement) => { c.style.removeProperty('--rx'); c.style.removeProperty('--ry') }
-    const mv = (e: PointerEvent) => {
-      const c = (e.target as HTMLElement).closest<HTMLElement>('.card:not(.callback):not(.sav-deck):not(.face):not(.step)')
-      if (cur && cur !== c) reset(cur); cur = c; if (!c) return
-      const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5
-      c.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg'); c.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg')
-      c.style.setProperty('--gx', (x + .5) * 100 + '%'); c.style.setProperty('--gy', (y + .5) * 100 + '%')
-    }
-    const out = () => { if (cur) reset(cur); cur = null }
-    addEventListener('pointermove', mv); document.addEventListener('pointerleave', out)
-    return () => { removeEventListener('pointermove', mv); document.removeEventListener('pointerleave', out) }
-  }, [])
 }

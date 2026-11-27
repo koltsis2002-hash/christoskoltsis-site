@@ -23,7 +23,7 @@
 - Το ερωτηματολόγιο αναγκών που υπάρχει ήδη: https://koltsis2002-hash.github.io/--questionnaire/
 
 ## Τεχνικά
-- Vite + React + TypeScript, με CSS στο `src/index.css` (όχι Tailwind στην πράξη). Τα εφέ (βάθος στην πρώτη οθόνη, κλίση καρτών, εμφάνιση με κύλιση) είναι στο `src/Fx.tsx`, χωρίς three.js.
+- Vite + React + TypeScript, με CSS στο `src/index.css` (όχι Tailwind στην πράξη). Τα εφέ (βάθος στην πρώτη οθόνη, εμφάνιση με κύλιση) είναι στο `src/Fx.tsx`, χωρίς three.js. Χωρίς λάμψεις και κλίσεις στις κάρτες: ο Χρήστος θέλει καθαρά γράμματα που διαβάζονται εύκολα.
 - Η φωτογραφία χωρίς φόντο είναι στο `src/cutout.webp` (βγήκε με `rembg` από το `src/photo.jpg`).
 - `npm install`, μετά `npm run dev` για δοκιμή και `npm run build` για το τελικό (φάκελος `dist/`).
 - Σελίδες με κανονικές διευθύνσεις (λίστα, τίτλοι και περιγραφές για τη Google στο `src/routes.ts`):
