@@ -349,3 +349,8 @@ em,i,blockquote{font-style:normal}
 .step-toggle .topic.sm{display:block;font-size:clamp(24px,6vw,30px);letter-spacing:.03em}
 .step-toggle .learn{font-size:16px}
 .step.open .step-toggle .topic,.step.open .step-toggle .learn{color:var(--on)}
+/* Ο Χρήστος είναι το κεντρικό πρόσωπο: μεγαλύτερη φωτογραφία, μικρότερο όνομα δίπλα */
+.hero2{--sw:clamp(34px,3.6vw,54px)}
+.sig-w{letter-spacing:.14em}
+@media(min-width:860px){.cut img{max-height:min(calc(100svh - 100px),860px)}}
+@media(max-width:859px){.hero2{--sw:min(8.5vw,60px)}.cut img{height:min(60svh,560px)}}
