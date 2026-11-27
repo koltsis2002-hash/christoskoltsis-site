@@ -170,7 +170,6 @@ header.open .burger i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 main{padding-top:28px}
 
 .hero2{position:relative;display:grid;align-items:end;min-height:min(calc(100svh - 110px),760px);margin:0 -16px;padding:0 16px;overflow:clip;isolation:isolate}
-.sig{position:absolute;left:50%;bottom:6%;z-index:-1;font-family:var(--serif);font-weight:700;font-size:min(19vw,215px);line-height:.8;letter-spacing:-.04em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,rgba(229,100,16,.22),rgba(229,100,16,.06) 90%);-webkit-background-clip:text;background-clip:text;transform:translate(calc(-50% + var(--mx,0)*-40px),calc(var(--my,0)*-22px));user-select:none;pointer-events:none}
 .hero-copy{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:28px 0}
 .hero-title{font-size:clamp(40px,6.4vw,84px);line-height:1.02;margin:0;max-width:11ch}
 .hero-title em{display:inline;color:var(--accent)}
@@ -185,7 +184,7 @@ main{padding-top:28px}
   .cut{align-self:end;width:min(36vw,430px)}
   .cut img{max-height:calc(100svh - 120px);width:auto;margin:0 auto}
 }
-@media(max-width:859px){.hero2{min-height:0}.sig{bottom:22%}.hero-copy{padding:20px 0 0}}
+@media(max-width:859px){.hero2{min-height:0}.hero-copy{padding:20px 0 0}}
 
 .w,.rise{display:inline-block;animation:wIn .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0)*85ms + 120ms)}
 .rise{display:flex}.tag.rise{display:inline-block}
@@ -218,7 +217,7 @@ p.rise{display:block}
 .pick input:checked+span::before{border-color:var(--accent);background-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%23111' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
 
-@media(prefers-reduced-motion:reduce){.w,.rise,.pick input:checked+span::before{animation:none}.sig{transform:translateX(-50%)}.cut{transform:none}}
+@media(prefers-reduced-motion:reduce){.w,.rise,.pick input:checked+span::before{animation:none}.cut{transform:none}}
 /* ---- Στιγμές ζωής, εργαλεία, φόρμα ---- */
 .ico{width:30px;height:30px;color:var(--accent)}
 .moments{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
@@ -324,16 +323,13 @@ em,i,blockquote{font-style:normal}
 .flinks{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
 .flinks a{color:var(--text);font-weight:700;min-height:32px;display:inline-flex;align-items:center}
 /* ---- Το «ΚΟΛΤΣΗΣ» πιο έντονο, και η ίδια εικόνα σε κινητό/tablet ---- */
-.sig{background:linear-gradient(180deg,rgba(229,100,16,.55),rgba(229,100,16,.3) 90%);-webkit-background-clip:text;background-clip:text}
 @media(max-width:859px){
   .hero2{display:grid;grid-template-columns:1fr;align-items:start;min-height:0}
   .cut{order:-1;width:auto;justify-self:center;margin-top:6px}
   .cut img{height:min(46svh,400px);width:auto}
-  .sig{top:calc(min(46svh,400px) * .52);bottom:auto;font-size:25vw}
-  .hero-copy{padding:18px 0 8px}
+    .hero-copy{padding:18px 0 8px}
 }
 .hero-copy .btn.ghost{background:var(--surface)}
-@media(max-width:859px){.sig{font-size:18.5vw}}
 /* ---- Το ονοματεπώνυμο αριστερά και δεξιά της φωτογραφίας, αχνό ---- */
 .cut{display:flex;align-items:center;justify-content:center;gap:4px;width:auto}
 .cut img{flex:none}
