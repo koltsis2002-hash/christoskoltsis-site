@@ -123,7 +123,7 @@ const DAYS: [string, string][] = [['Δευτέρα', 'Δε'], ['Τρίτη', 'Τ
 const TIMES = Array.from({ length: 25 }, (_, i) => `${String(9 + Math.floor(i / 2)).padStart(2, '0')}:${i % 2 ? '30' : '00'}`)
 
 function Callback({ topic = '' }: { topic?: string }) {
-  const [f, setF] = useState({ name: '', phone: '', meet: WAYS[0], consent: false, website: '' })
+  const [f, setF] = useState({ name: '', phone: '', email: '', meet: WAYS[0], consent: false, website: '' })
   const [days, setDays] = useState<string[]>([])
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
@@ -135,14 +135,15 @@ function Callback({ topic = '' }: { topic?: string }) {
   const toggle = (list: string[], put: (x: string[]) => void, v: string) => put(list.includes(v) ? list.filter(x => x !== v) : [...list, v])
   const badRange = !!from !== !!to || (!!from && to <= from)
   const pickFrom = (v: string) => { setFrom(v); if (v && (!to || to <= v)) setTo(TIMES[Math.min(TIMES.indexOf(v) + 4, TIMES.length - 1)]) }
-  const valid = f.name.trim().length > 1 && f.phone.replace(/\D/g, '').length >= 10 && f.consent && !badRange
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())
+  const valid = f.name.trim().length > 1 && f.phone.replace(/\D/g, '').length >= 10 && emailOk && f.consent && !badRange
   const send = async (e: FormEvent) => {
     e.preventDefault(); if (!valid || state === 'sending') return
     setState('sending'); setMsg('')
     const pref_day = DAYS.filter(([d]) => days.includes(d)).map(([, s]) => s).join(',')
     const pref_slot = from ? `${from}–${to}` : 'Οποιαδήποτε ώρα'
     try {
-      const r = await fetch(LEAD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, topic, pref_day, pref_slot, elapsed_ms: Date.now() - t0, source: 'site' }) })
+      const r = await fetch(LEAD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, email: f.email.trim(), topic, pref_day, pref_slot, elapsed_ms: Date.now() - t0, source: 'site' }) })
       const j = await r.json().catch(() => ({}))
       if (r.ok && j.ok) { setState('ok'); return }
       setState('err'); setMsg(r.status === 429 ? 'Έστειλες ήδη αίτημα. Θα σε καλέσω σύντομα!' : 'Κάτι δεν πήγε καλά. Δοκίμασε ξανά ή κάλεσέ με στο ' + PHONE + '.')
@@ -151,11 +152,13 @@ function Callback({ topic = '' }: { topic?: string }) {
   if (state === 'ok') return <section className="card callback done"><h2>Ευχαριστώ, {f.name.trim().split(' ')[0]}! 😊</h2><p>{f.meet === 'Βιντεοκλήση' ? 'Θα σε καλέσω σύντομα για να κανονίσουμε τη βιντεοκλήση.' : 'Θα σε καλέσω σύντομα.'}</p></section>
   return <section className="card callback">
     <div className="cbtext"><h2>Πάρε με τηλέφωνο, <em>ή σε παίρνω εγώ</em></h2>
-      <p>Άφησε όνομα και τηλέφωνο, πες μου πώς και πότε σε βολεύει, και θα σε καλέσω. Χωρίς καμία δέσμευση.</p>
+      <p>Άφησε όνομα, τηλέφωνο και email, πες μου πώς και πότε σε βολεύει, και θα σε καλέσω. Χωρίς καμία δέσμευση.</p>
       <p className="direct"><a href={'tel:' + PHONE}>{PHONE}</a><span>·</span><a href={'mailto:' + MAIL}>{MAIL}</a></p></div>
     <form onSubmit={send}>
       <label>Όνομα<input id={id + 'n'} autoComplete="name" required value={f.name} onChange={e => set('name', e.target.value)} /></label>
       <label>Τηλέφωνο<input id={id + 'p'} type="tel" autoComplete="tel" required value={f.phone} onChange={e => set('phone', e.target.value)} /></label>
+      <label>Email<input id={id + 'e'} type="email" autoComplete="email" inputMode="email" required value={f.email} onChange={e => set('email', e.target.value)} /></label>
+      {f.email.trim().length > 3 && !emailOk && <p className="small" role="alert">Έλεγξε το email, π.χ. onoma@gmail.com</p>}
       <label className="hp" aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" value={f.website} onChange={e => set('website', e.target.value)} /></label>
       <fieldset><legend>Πώς να μιλήσουμε;</legend><div className="chips">{WAYS.map(t => <label className="pick" key={t}><input type="radio" name={id + 'way'} checked={f.meet === t} onChange={() => set('meet', t)} /><span>{t}</span></label>)}</div></fieldset>
       <fieldset><legend>Ποιες μέρες σε βολεύουν;</legend><div className="chips">{DAYS.map(([d]) => <label className="pick" key={d}><input type="checkbox" checked={days.includes(d)} onChange={() => toggle(days, setDays, d)} /><span>{d}</span></label>)}</div></fieldset>
@@ -182,7 +185,7 @@ function Article({ id }: { id: string }) {
 
 function Privacy() {
   return <article className="article"><h1>Πολιτική απορρήτου</h1><div className="note">Πρόχειρο. Χρειάζεται συμπλήρωση και έγκριση πριν δημοσιευτεί.</div>
-    <h2>Ποια στοιχεία ζητούνται</h2><p>Όνομα, τηλέφωνο, αν προτιμάς τηλεφώνημα ή βιντεοκλήση και ποιες μέρες και ώρες σε βολεύουν, μόνο όταν τα συμπληρώνεις στη φόρμα.</p>
+    <h2>Ποια στοιχεία ζητούνται</h2><p>Όνομα, τηλέφωνο, email, αν προτιμάς τηλεφώνημα ή βιντεοκλήση και ποιες μέρες και ώρες σε βολεύουν, μόνο όταν τα συμπληρώνεις στη φόρμα.</p>
     <h2>Για ποιον λόγο</h2><p>Για να επικοινωνήσω μαζί σου σχετικά με το αίτημά σου. Τα στοιχεία δεν χρησιμοποιούνται για τίποτε άλλο.</p>
     <h2>Τα δικαιώματά σου</h2><p>Μπορείς να ζητήσεις να δεις, να διορθώσεις ή να διαγράψεις τα στοιχεία σου στο {MAIL}.</p></article>
 }
