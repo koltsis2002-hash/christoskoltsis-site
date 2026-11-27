@@ -10,7 +10,8 @@ import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
-const NAV = [['arxiki', 'Αρχική'], ['stigmes', 'Στιγμές ζωής'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επαφή']]
+const NAV = [['ygeia', 'Υγεία'], ['zoi', 'Ζωή'], ['apotamieusi', 'Αποταμίευση']]
+const MORE = [['stigmes', 'Στιγμές ζωής'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επικοινωνία']]
 const DECK_KEYS = Object.keys(DECKS) as DeckKey[]
 
 const ICON: Record<string, ReactElement> = {
@@ -219,7 +220,7 @@ export default function App({ initial }: { initial?: string }) {
     addEventListener('keydown', k); return () => removeEventListener('keydown', k)
   }, [menu])
   useFx(route)
-  const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi', ...DECK_KEYS].includes(route) ? 'ergaleia' : route
+  const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi'].includes(route) ? 'ergaleia' : route
   const page = route === 'stigmes' ? <Moments /> : route.startsWith('stigmi-') ? <MomentPage key={route} id={route.slice(7)} />
     : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : DECK_KEYS.includes(route as DeckKey) ? <DeckPage k={route as DeckKey} />
     : route === 'blog' ? <><span className="tag">Άρθρα</span><h1>Ασφάλεια, <em>με απλά λόγια</em></h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις πριν υπογράψεις.</p><Posts /></>
@@ -230,11 +231,12 @@ export default function App({ initial }: { initial?: string }) {
     <div className="draft">Προεπισκόπηση · εκκρεμεί έγκριση πριν δημοσιευτεί</div>
     <header className={menu ? 'open' : undefined}><div className="pill">
       <a className="brand" href={href('arxiki')}><img className="mark" src={mark} alt="" /><span><b>Κόλτσης Χρήστος</b><small>Insurance &amp; Financial Advisor</small></span></a>
-      <nav id="menu" aria-label="Κύριο μενού">{NAV.map(([k, l]) => <a key={k} href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}</nav>
+      <nav id="menu" aria-label="Κύριο μενού">{NAV.map(([k, l]) => <a key={k} className="nav-topic" href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}
+        <div className="nav-more">{MORE.map(([k, l]) => <a key={k} href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}</div></nav>
       <a className="btn book" href={href('epikoinonia')}>Σε παίρνω εγώ</a>
       <button className="burger" aria-expanded={menu} aria-controls="menu" aria-label={menu ? 'Κλείσιμο μενού' : 'Άνοιγμα μενού'} onClick={() => setMenu(m => !m)}><i /><i /><i /></button>
     </div></header>
     <main className="wrap">{page}</main>
-    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><span><a href={QUIZ} target="_blank" rel="noreferrer">Ερωτηματολόγιο αναγκών</a> · <a href={href('arxiki') + '#sxetika'}>Σχετικά</a> · <a href={href('aporrito')}>Πολιτική απορρήτου</a></span></div></footer>
+    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><nav className="flinks" aria-label="Περισσότερα">{[...NAV, ...MORE].map(([k, l]) => <a key={k} href={href(k)}>{l}</a>)}<a href={QUIZ} target="_blank" rel="noreferrer">Ερωτηματολόγιο αναγκών</a><a href={href('aporrito')}>Πολιτική απορρήτου</a></nav></div></footer>
   </>
 }

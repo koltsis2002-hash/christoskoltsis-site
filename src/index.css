@@ -312,3 +312,25 @@ em,i,blockquote{font-style:normal}
 .deck-more .card:hover{border-color:var(--accent)}
 .h1-sub{display:block;font-size:clamp(20px,2.4vw,26px);font-weight:400;color:var(--muted);margin-top:8px}
 .hero-title{max-width:14ch;font-size:clamp(36px,6vw,76px);text-wrap:balance}
+/* ---- Απλή πλοήγηση: ΥΓΕΙΑ · ΖΩΗ · ΑΠΟΤΑΜΙΕΥΣΗ ---- */
+.pill nav a.nav-topic{font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:15.5px;color:var(--text)}
+.pill nav a.nav-topic[aria-current=page]{color:var(--on)}
+.nav-more{display:none}
+@media(max-width:899px){
+  .pill nav a.nav-topic{font-size:22px;padding:14px 16px}
+  .nav-more{display:flex;flex-wrap:wrap;gap:4px;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
+  .nav-more a{font-size:16px!important;padding:10px 12px!important;color:var(--muted)!important}
+}
+.flinks{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.flinks a{color:var(--text);font-weight:700;min-height:32px;display:inline-flex;align-items:center}
+/* ---- Το «ΚΟΛΤΣΗΣ» πιο έντονο, και η ίδια εικόνα σε κινητό/tablet ---- */
+.sig{background:linear-gradient(180deg,rgba(229,100,16,.55),rgba(229,100,16,.3) 90%);-webkit-background-clip:text;background-clip:text}
+@media(max-width:859px){
+  .hero2{display:grid;grid-template-columns:1fr;align-items:start;min-height:0}
+  .cut{order:-1;width:auto;justify-self:center;margin-top:6px}
+  .cut img{height:min(46svh,400px);width:auto}
+  .sig{top:calc(min(46svh,400px) * .52);bottom:auto;font-size:25vw}
+  .hero-copy{padding:18px 0 8px}
+}
+.hero-copy .btn.ghost{background:var(--surface)}
+@media(max-width:859px){.sig{font-size:18.5vw}}
