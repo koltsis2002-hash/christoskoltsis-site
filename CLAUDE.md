@@ -16,6 +16,7 @@
 - Τηλέφωνο 6989118348 · Email christos.koltsis@nnadvisors.gr · Τοποθεσία: Έδεσσα
 - Βιογραφικό: NN Hellas από τον Δεκέμβριο 2025 · πιστοποίηση Τράπεζας της Ελλάδος · Πτυχίο Οικονομικών και MSc Εφαρμοσμένης Οικονομικής & Χρηματοοικονομικής (ολοκληρώνεται), Πανεπιστήμιο Μακεδονίας
 - Χρώματα (στυλ JARVIS): φόντο #f0f0f0, κάρτες #ffffff, πορτοκαλί #e56410, μαύρα γράμματα πάνω στο πορτοκαλί. Μόνο ανοιχτόχρωμο θέμα.
+- Γραμματοσειρά: **Times New Roman** παντού (σε συσκευές χωρίς αυτήν, η Tinos από Google Fonts, με ίδιες διαστάσεις). Το όνομα «Χρήστος Κόλτσης» γράφεται πάντα σε ένα χρώμα και ένα μέγεθος.
 - Λογότυπο: `src/logo.png` (ολόκληρο) και `src/mark.png` (σήμα). Φωτογραφία: `src/photo.jpg`.
 - Το ερωτηματολόγιο αναγκών που υπάρχει ήδη: https://koltsis2002-hash.github.io/--questionnaire/
 
@@ -26,6 +27,7 @@
 - Σελίδες με κανονικές διευθύνσεις, π.χ. `/idiotes/`, `/arthra/anamoni/` (λίστα, τίτλοι και περιγραφές για τη Google στο `src/routes.ts`). Οι παλιοί σύνδεσμοι `#idiotes` μεταφέρονται αυτόματα.
 - Το `npm run build` φτιάχνει έτοιμο HTML για κάθε σελίδα (`scripts/prerender.mjs`, μέσω `src/entry-server.tsx`), μαζί με `sitemap.xml`, `robots.txt` και τα στοιχεία του Χρήστου για τη Google (JSON-LD). Η εικόνα για κοινοποίηση είναι το `public/og.jpg`.
 - Ρυθμίσεις στο `.github/workflows/deploy.yml`: `SITE_BASE` και `SITE_URL` (αλλάζουν σε `/` και `https://christoskoltsis.gr` στη Φάση 4) και `SITE_INDEX` (γίνεται `'true'` στη Φάση 6, για να εμφανίζεται στη Google).
+- Προεπισκόπηση ως artifact στο claude.ai: `npm run build:preview` → `dist-preview/site-preview.html` (ένα αρχείο, σελίδες με `#`, η φόρμα δεν στέλνει από εκεί). Τελευταία: https://claude.ai/artifact/LVwwCt3cjrGc6W5eMtoaSx
 - Δεδομένα: `src/data.ts` · Εργαλεία (υπολογιστής σύνταξης, τεστ κάλυψης): `src/Tools.tsx`.
 
 ## Τι είναι ήδη έτοιμο στο Supabase (έργο «Koltsis», id `rcvdnisyznxhwdfakhfl`)
