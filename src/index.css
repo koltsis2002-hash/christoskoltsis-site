@@ -285,3 +285,5 @@ p.rise{display:block}
 .book{white-space:nowrap}
 @media(max-width:400px){.brand b{font-size:14px}.book{padding:0 12px;font-size:14px}.pill{gap:6px}}
 .sav-slide[hidden]{display:none}
+.range{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px}
+.range select{font-size:17px}

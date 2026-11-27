@@ -110,24 +110,27 @@ const LEAD_URL = 'https://rcvdnisyznxhwdfakhfl.supabase.co/functions/v1/site-lea
 const WAYS = ['Τηλεφωνικά', 'Βιντεοκλήση']
 // Short day codes keep pref_day within the 20 characters the lead function stores
 const DAYS: [string, string][] = [['Δευτέρα', 'Δε'], ['Τρίτη', 'Τρ'], ['Τετάρτη', 'Τε'], ['Πέμπτη', 'Πε'], ['Παρασκευή', 'Πα'], ['Σάββατο', 'Σα']]
-const HOURS = ['Πρωί', 'Μεσημέρι', 'Απόγευμα']
+const TIMES = Array.from({ length: 25 }, (_, i) => `${String(9 + Math.floor(i / 2)).padStart(2, '0')}:${i % 2 ? '30' : '00'}`)
 
 function Callback({ topic = '' }: { topic?: string }) {
   const [f, setF] = useState({ name: '', phone: '', meet: WAYS[0], consent: false, website: '' })
   const [days, setDays] = useState<string[]>([])
-  const [hours, setHours] = useState<string[]>([])
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
   const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [msg, setMsg] = useState('')
   const [t0] = useState(() => Date.now())
   const id = 'cb' + topic.replace(/\W/g, '').slice(0, 12)
   const set = (k: string, v: string | boolean) => setF(o => ({ ...o, [k]: v }))
   const toggle = (list: string[], put: (x: string[]) => void, v: string) => put(list.includes(v) ? list.filter(x => x !== v) : [...list, v])
-  const valid = f.name.trim().length > 1 && f.phone.replace(/\D/g, '').length >= 10 && f.consent
+  const badRange = !!from !== !!to || (!!from && to <= from)
+  const pickFrom = (v: string) => { setFrom(v); if (v && (!to || to <= v)) setTo(TIMES[Math.min(TIMES.indexOf(v) + 4, TIMES.length - 1)]) }
+  const valid = f.name.trim().length > 1 && f.phone.replace(/\D/g, '').length >= 10 && f.consent && !badRange
   const send = async (e: FormEvent) => {
     e.preventDefault(); if (!valid || state === 'sending') return
     setState('sending'); setMsg('')
     const pref_day = DAYS.filter(([d]) => days.includes(d)).map(([, s]) => s).join(',')
-    const pref_slot = HOURS.filter(h => hours.includes(h)).join(', ') || 'Οποιαδήποτε ώρα'
+    const pref_slot = from ? `${from}–${to}` : 'Οποιαδήποτε ώρα'
     try {
       const r = await fetch(LEAD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...f, topic, pref_day, pref_slot, elapsed_ms: Date.now() - t0, source: 'site' }) })
       const j = await r.json().catch(() => ({}))
@@ -146,7 +149,10 @@ function Callback({ topic = '' }: { topic?: string }) {
       <label className="hp" aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" value={f.website} onChange={e => set('website', e.target.value)} /></label>
       <fieldset><legend>Πώς να μιλήσουμε;</legend><div className="chips">{WAYS.map(t => <label className="pick" key={t}><input type="radio" name={id + 'way'} checked={f.meet === t} onChange={() => set('meet', t)} /><span>{t}</span></label>)}</div></fieldset>
       <fieldset><legend>Ποιες μέρες σε βολεύουν;</legend><div className="chips">{DAYS.map(([d]) => <label className="pick" key={d}><input type="checkbox" checked={days.includes(d)} onChange={() => toggle(days, setDays, d)} /><span>{d}</span></label>)}</div></fieldset>
-      <fieldset><legend>Ποιες ώρες;</legend><div className="chips">{HOURS.map(h => <label className="pick" key={h}><input type="checkbox" checked={hours.includes(h)} onChange={() => toggle(hours, setHours, h)} /><span>{h}</span></label>)}</div></fieldset>
+      <fieldset><legend>Ποια ώρα να σε καλέσω;</legend><div className="range">
+        <label>Από<select id={id + 'f'} value={from} onChange={e => pickFrom(e.target.value)}><option value="">Οποιαδήποτε</option>{TIMES.slice(0, -1).map(t => <option key={t}>{t}</option>)}</select></label>
+        <label>Έως<select id={id + 't'} value={to} onChange={e => setTo(e.target.value)}><option value="">Οποιαδήποτε</option>{TIMES.slice(1).map(t => <option key={t} disabled={!!from && t <= from}>{t}</option>)}</select></label>
+      </div>{badRange && <p className="small" role="alert">Διάλεξε μια ώρα «έως» μετά την ώρα «από».</p>}</fieldset>
       <label className="check"><input type="checkbox" checked={f.consent} onChange={e => set('consent', e.target.checked)} /><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για να επικοινωνήσεις μαζί μου. <a href={href('aporrito')}>Απόρρητο</a></span></label>
       <button className="btn" disabled={!valid || state === 'sending'}>{state === 'sending' ? 'Αποστολή…' : 'Θέλω να με καλέσεις'}</button>
       {msg && <p className="small" role="alert">{msg}</p>}
