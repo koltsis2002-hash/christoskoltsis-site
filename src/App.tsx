@@ -5,7 +5,7 @@ import mark from './mark'
 import logo from './logo'
 import { useDepth, useFx } from './Fx'
 import { Pension, CoverMap, ToolsPage, QUIZ } from './Tools'
-import { DECKS, Deck, DeckPage, type DeckKey } from './Decks'
+import { DECKS, Deck, DeckPage, Topic, TopicCard, type DeckKey } from './Decks'
 import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './routes'
 
 const PHONE = '6989118348'
@@ -70,7 +70,7 @@ function Home() {
     <MomentCards />
 
     <h2 className="section">Πώς δουλεύει, με απλά λόγια</h2>
-    <div className="deck-more">{DECK_KEYS.map(k => <a key={k} className="card" href={href(k)}><span className="tag">Παρουσίαση</span><h3>{DECKS[k].label}</h3><p>{DECKS[k].lead}</p><span className="more">Άνοιξε →</span></a>)}</div>
+    <div className="deck-more">{DECK_KEYS.map(k => <TopicCard key={k} k={k} />)}</div>
     <div className="grid two" style={{ marginTop: 14 }}>
       <a className="card" href={href('xartis')}><span className="tag">1 λεπτό</span><h3>Ο χάρτης της προστασίας σου</h3><p>Έξι περιοχές, ένα πάτημα στην καθεμιά.</p><span className="more">Ξεκίνα →</span></a>
       <a className="card" href={href('syntaxi')}><span className="tag">3 ερωτήσεις</span><h3>Πόσο να βάζω για τη σύνταξη;</h3><p>Ένα νούμερο για κάθε μήνα, από σήμερα.</p><span className="more">Υπολόγισε →</span></a>
@@ -107,7 +107,7 @@ function MomentPage({ id }: { id: string }) {
     <div className={'stack' + (open != null ? ' has-open' : '')}>{m.needs.map((n, j) => <article id={'need-' + j} className={'card step' + (open === j ? ' open' : '')} key={n.t} style={{ ['--i' as string]: j }}>
       <span className="step-n">{j + 1}</span>
       <div className="step-body"><h3>{n.t}</h3><p>{n.d}</p>
-        {n.deck && <button type="button" className="step-toggle" aria-expanded={open === j} aria-controls={'deck-' + j} onClick={() => toggle(j)}>{open === j ? 'Κλείσε την παρουσίαση ▴' : DECKS[n.deck].label + ' ▾'}</button>}
+        {n.deck && <button type="button" className="step-toggle" aria-expanded={open === j} aria-controls={'deck-' + j} onClick={() => toggle(j)}>{open === j ? 'Κλείσε ▴' : <><Topic k={n.deck} sm /> · Μάθε για αυτήν ▾</>}</button>}
         {n.deck && open === j && <div id={'deck-' + j} className="step-deck"><Deck k={n.deck} bare /></div>}
       </div></article>)}</div>
     <p className="small disclaimer">Γενική ενημέρωση. Τι ακριβώς σου ταιριάζει εξαρτάται από την ηλικία, το εισόδημα και όσα ήδη έχεις.</p>

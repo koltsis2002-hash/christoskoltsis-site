@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { href } from './routes'
+import { TopicCard, type DeckKey } from './Decks'
 
 const eur = (n: number) => (isFinite(n) ? Math.round(n) : 0).toLocaleString('el-GR') + ' €'
 export const QUIZ = 'https://koltsis2002-hash.github.io/--questionnaire/'
@@ -75,14 +76,13 @@ export function ToolsPage() {
   const T: [string, string, string, string][] = [
     [href('xartis'), '1 λεπτό', 'Ο χάρτης της προστασίας σου', 'Έξι περιοχές, ένα πάτημα στην καθεμιά, και βλέπεις τα κενά σου.'],
     [href('syntaxi'), '3 ερωτήσεις', 'Πόσο να βάζω για τη σύνταξη', 'Ένα νούμερο για κάθε μήνα, από σήμερα.'],
-    [href('ygeia'), 'Παρουσίαση', 'Πώς δουλεύει η ασφάλεια υγείας', 'Τι καλύπτει, πού ισχύει και τι να ρωτήσεις πριν διαλέξεις.'],
-    [href('zoi'), 'Παρουσίαση', 'Πώς δουλεύει η ασφάλεια ζωής', 'Τι κάνει για τους δικούς σου και πόση χρειάζεσαι.'],
-    [href('apotamieusi'), 'Παρουσίαση', 'Πώς δουλεύει η αποταμίευση', 'Με απλά λόγια, και ένα γράφημα που κουνάς εσύ.'],
     [QUIZ, '5 βήματα', 'Ερωτηματολόγιο αναγκών', 'Οι ανάγκες σου και το κόστος για να τις καλύψεις.'],
   ]
   return <>
     <span className="tag">Εργαλεία</span>
     <h1>Δοκίμασε <em>μόνος σου</em></h1><p className="lead">Μικρά, δωρεάν εργαλεία, χωρίς εγγραφή. Για να έρθεις στη συζήτηση με καθαρή εικόνα.</p>
+    <div className="deck-more">{(['ygeia', 'zoi', 'apotamieusi'] as DeckKey[]).map(k => <TopicCard key={k} k={k} />)}</div>
+    <h2 className="section">Εργαλεία</h2>
     <div className="grid">{T.map(([h, tag, t, d]) => <a className="card" key={t} href={h} {...(h.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})}>
       <span className="tag">{tag}</span><h3>{t}</h3><p>{d}</p><span className="more">Άνοιξε →</span></a>)}</div>
   </>

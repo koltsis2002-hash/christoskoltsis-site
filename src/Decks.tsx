@@ -69,10 +69,17 @@ const LIFE: Slide[] = [
   { tag: 'Επόμενο βήμα', title: 'Ας το δούμε για τη δική σου περίπτωση', body: <Next text="Πόσο κεφάλαιο, για πόσα χρόνια και τι ήδη έχεις. Τα βρίσκουμε μαζί, με τα δικά σου νούμερα." /> },
 ]
 
-export const DECKS: Record<DeckKey, { title: ReactNode; label: string; lead: string; slides: Slide[] }> = {
-  ygeia: { title: <>Πώς δουλεύει <em>η ασφάλεια υγείας</em></>, label: 'Πώς δουλεύει η ασφάλεια υγείας', lead: 'Τι καλύπτει, πού ισχύει και τι να ρωτήσεις πριν διαλέξεις. Με απλά λόγια.', slides: HEALTH },
-  zoi: { title: <>Πώς δουλεύει <em>η ασφάλεια ζωής</em></>, label: 'Πώς δουλεύει η ασφάλεια ζωής', lead: 'Τι κάνει για τους δικούς σου και πώς βρίσκεις πόση χρειάζεσαι. Με απλά λόγια.', slides: LIFE },
-  apotamieusi: { title: <>Πώς δουλεύει <em>η αποταμίευση</em></>, label: 'Πώς δουλεύει η αποταμίευση', lead: 'Πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο, και τι μπορεί να γίνει με τα χρόνια.', slides: SAVINGS },
+export const DECKS: Record<DeckKey, { word: string; label: string; lead: string; slides: Slide[] }> = {
+  ygeia: { word: 'Υγεία', label: 'Πώς δουλεύει η ασφάλεια υγείας', lead: 'Τι καλύπτει, πού ισχύει και τι να ρωτήσεις πριν διαλέξεις. Με απλά λόγια.', slides: HEALTH },
+  zoi: { word: 'Ζωή', label: 'Πώς δουλεύει η ασφάλεια ζωής', lead: 'Τι κάνει για τους δικούς σου και πώς βρίσκεις πόση χρειάζεσαι. Με απλά λόγια.', slides: LIFE },
+  apotamieusi: { word: 'Αποταμίευση', label: 'Πώς δουλεύει η αποταμίευση', lead: 'Πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο, και τι μπορεί να γίνει με τα χρόνια.', slides: SAVINGS },
+}
+
+// Christos wants these three topics always shown big, bold and in the accent colour
+export const Topic = ({ k, sm = false }: { k: DeckKey; sm?: boolean }) => <strong className={'topic' + (sm ? ' sm' : '')}>{DECKS[k].word}</strong>
+
+export function TopicCard({ k }: { k: DeckKey }) {
+  return <a className="card" href={href(k)}><Topic k={k} /><p>{DECKS[k].lead}</p><span className="learn">Μάθε για αυτήν →</span></a>
 }
 
 export function Deck({ k, bare = false }: { k: DeckKey; bare?: boolean }) {
@@ -120,10 +127,9 @@ export function Deck({ k, bare = false }: { k: DeckKey; bare?: boolean }) {
 export function DeckPage({ k }: { k: DeckKey }) {
   const d = DECKS[k]
   return <>
-    <span className="tag">Παρουσίαση</span>
-    <h1>{d.title}</h1>
+    <h1><Topic k={k} /><span className="h1-sub">{d.label}</span></h1>
     <p className="lead">{d.lead} Πέρασε τις διαφάνειες με τα κουμπιά ή σύρε με το δάχτυλο.</p>
     <Deck k={k} />
-    <div className="deck-more">{(Object.keys(DECKS) as DeckKey[]).filter(x => x !== k).map(x => <a key={x} className="card" href={href(x)}><span className="tag">Παρουσίαση</span><h3>{DECKS[x].label}</h3><span className="more">Άνοιξε →</span></a>)}</div>
+    <div className="deck-more">{(Object.keys(DECKS) as DeckKey[]).filter(x => x !== k).map(x => <TopicCard key={x} k={x} />)}</div>
   </>
 }
