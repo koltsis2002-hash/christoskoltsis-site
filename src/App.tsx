@@ -43,14 +43,13 @@ function Home() {
   useDepth(hero)
   return <>
     <section className="hero2" id="sxetika" ref={hero}>
-      <div className="sig" aria-hidden="true">ΚΟΛΤΣΗΣ</div>
       <div className="hero-copy">
         <span className="tag rise" style={{ ['--d' as string]: 0 }}>Γεια σου, είμαι ο Χρήστος</span>
         <h1 className="hero-title"><Words text="Ο σύμβουλός σου για" /> <em><Words text="ό,τι μετράει" from={4} /></em></h1>
         <p className="rise" style={{ ['--d' as string]: 7 }}>Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα. Σε ακούω πρώτα, σου εξηγώ απλά και αποφασίζεις εσύ.</p>
         <div className="actions rise" style={{ ['--d' as string]: 8 }}><a className="btn" href={href('epikoinonia')}>Πάρε με τηλέφωνο</a><a className="btn ghost" href={href('stigmes')}>Τι σε απασχολεί;</a></div>
       </div>
-      <figure className="cut"><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /></figure>
+      <figure className="cut"><span className="sig-w sig-l" aria-hidden="true">Χρήστος</span><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /><span className="sig-w sig-r" aria-hidden="true">Κόλτσης</span></figure>
     </section>
 
     <section className="about2">

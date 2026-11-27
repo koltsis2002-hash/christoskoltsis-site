@@ -334,3 +334,17 @@ em,i,blockquote{font-style:normal}
 }
 .hero-copy .btn.ghost{background:var(--surface)}
 @media(max-width:859px){.sig{font-size:18.5vw}}
+/* ---- Το ονοματεπώνυμο αριστερά και δεξιά της φωτογραφίας, αχνό ---- */
+.cut{display:flex;align-items:center;justify-content:center;gap:4px;width:auto}
+.cut img{flex:none}
+.sig-w{flex:none;writing-mode:vertical-rl;text-transform:uppercase;font-weight:700;font-size:var(--sw);line-height:1;letter-spacing:.08em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,rgba(229,100,16,.24),rgba(229,100,16,.08));-webkit-background-clip:text;background-clip:text;user-select:none;pointer-events:none;transform:translate3d(calc(var(--mx,0)*-14px),0,0)}
+.sig-l{transform:rotate(180deg) translate3d(calc(var(--mx,0)*14px),0,0)}
+.hero2{--sw:clamp(64px,7.4vw,112px)}
+@media(min-width:860px){.cut img{max-height:calc(100svh - 120px);width:auto}}
+@media(max-width:859px){.hero2{--sw:min(15vw,110px)}}
+@media(prefers-reduced-motion:reduce){.sig-w{transform:none}.sig-l{transform:rotate(180deg)}}
+@media(min-width:860px){
+  .hero2{grid-template-columns:minmax(0,1fr) auto;column-gap:24px;--sw:clamp(64px,5.6vw,84px)}
+  .cut img{max-height:min(calc(100svh - 140px),700px)}
+  .hero-title{font-size:clamp(40px,4.8vw,70px)}
+}
