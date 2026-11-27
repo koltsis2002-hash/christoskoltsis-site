@@ -291,3 +291,15 @@ body{-webkit-font-smoothing:auto;text-rendering:optimizeLegibility}
 .btn{box-shadow:none}.btn:hover{transform:none;filter:brightness(.95)}
 @media(max-width:759px){body{font-size:18px}.card p,.lead{font-size:17.5px}.small{font-size:14.5px}}
 header{background:linear-gradient(var(--bg) 75%,rgba(240,240,240,0))}
+/* ---- Πτυσσόμενες ανάγκες με παρουσίαση ---- */
+.step-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.step-toggle{align-self:flex-start;margin-top:10px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--accent);background:var(--surface);color:var(--text);font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.step.open .step-toggle{background:var(--accent);color:var(--on)}
+.step.open{position:relative;top:auto;z-index:2}
+.stack.has-open .step{position:relative;top:auto}
+.stack.has-open{gap:16px;margin-bottom:0}.stack.has-open::after{display:none}
+.step-deck{margin-top:14px}
+.sav-deck.bare{display:flex;flex-direction:column;gap:16px;min-height:0;padding:16px 0 0;border-top:1px solid var(--line)}
+@media(max-width:600px){.step.open{flex-direction:column;gap:6px}.step.open .step-n{font-size:40px}}
+.deck-more{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin-top:18px}
+.sav-deck{scroll-margin-top:100px}.step{scroll-margin-top:96px}

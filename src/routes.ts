@@ -4,7 +4,7 @@ export const BASE = import.meta.env.BASE_URL
 // Preview builds (claude.ai artifact) can't use real paths, so pages switch on #key there
 export const HASH = import.meta.env.VITE_HASH_ROUTES === 'true'
 
-export const PAGES = ['arxiki', 'stigmes', 'apotamieusi', 'ergaleia', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito'] as const
+export const PAGES = ['arxiki', 'stigmes', 'ygeia', 'zoi', 'apotamieusi', 'ergaleia', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito'] as const
 export const ROUTES: string[] = [...PAGES, ...MOMENTS.map(m => 'stigmi-' + m.id), ...POSTS.map(p => 'arthro-' + p.id)]
 // Hash links from the earlier version of the site
 export const OLD: Record<string, string> = { idiotes: 'stigmes', epixeiriseis: 'stigmi-epixeirisi', programmata: 'stigmes', kefalaia: 'apotamieusi', konta: 'arthro-symvevlimeno', checkup: 'xartis', rantevou: 'epikoinonia', nosileia: 'ergaleia', 'arthro-efka': 'blog' }
@@ -36,6 +36,8 @@ type Meta = { title: string; description: string }
 const META: Record<string, Meta> = {
   arxiki: { title: `${NAME} · Ασφαλιστικός & Χρηματοοικονομικός Σύμβουλος στην Έδεσσα`, description: 'Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα. Ζωή, υγεία, σύνταξη, επενδύσεις και λύσεις για επιχειρήσεις, με απλά λόγια, για όλη τη Βόρεια Ελλάδα.' },
   stigmes: { title: 'Στιγμές ζωής', description: 'Η πρώτη δουλειά, η οικογένεια, το σπίτι, η επιχείρηση, η σύνταξη. Βρες τη στιγμή που σου μοιάζει και δες τι αξίζει να σκεφτείς.' },
+  ygeia: { title: 'Πώς δουλεύει η ασφάλεια υγείας', description: 'Νοσηλεία, γιατροί και εξετάσεις, αποζημίωση ή επίδομα, συμβεβλημένο νοσοκομείο και τι να ρωτήσεις πριν διαλέξεις. Μια μικρή παρουσίαση με απλά λόγια.' },
+  zoi: { title: 'Πώς δουλεύει η ασφάλεια ζωής', description: 'Τι κάνει μια ασφάλεια ζωής για τους δικούς σου, πώς βρίσκεις πόσο κεφάλαιο χρειάζεσαι και γιατί συμφέρει από νωρίς. Με απλά λόγια.' },
   apotamieusi: { title: 'Πώς δουλεύει η αποταμίευση', description: 'Μια μικρή παρουσίαση με απλά λόγια: πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο για τη σύνταξη ή για τα παιδιά.' },
   ergaleia: { title: 'Δωρεάν εργαλεία', description: 'Ο χάρτης της προστασίας σου, πόσο να βάζεις για τη σύνταξη και πώς δουλεύει η αποταμίευση. Μικρά, δωρεάν εργαλεία, χωρίς εγγραφή.' },
   xartis: { title: 'Ο χάρτης της προστασίας σου', description: 'Έξι περιοχές, ένα πάτημα στην καθεμιά: δες αμέσως πού είσαι καλυμμένος και πού υπάρχουν κενά.' },

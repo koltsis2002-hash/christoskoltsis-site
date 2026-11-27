@@ -1,4 +1,5 @@
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
+import type { Slide } from './Decks'
 import { href } from './routes'
 
 // NN Hellas regular-premium savings scenarios, ported from JARVIS (INV.acc / project()).
@@ -81,10 +82,10 @@ function Calculator() {
   </div>
 }
 
-const SLIDES: { tag: string; title: string; body: ReactNode }[] = [
+export const SAVINGS: Slide[] = [
   { tag: 'Αποταμίευση', title: 'Ένα δικό σου κεφάλαιο, με τον δικό σου ρυθμό',
     body: <><p className="sav-lead">Ένα σταθερό ποσό κάθε μήνα, για πολλά χρόνια, γίνεται κεφάλαιο για το μέλλον.</p>
-      <p>Σε έξι σύντομες διαφάνειες βλέπεις πώς δουλεύει, τι μπορεί να γίνει με τα χρόνια και τι να ξέρεις πριν ξεκινήσεις.</p></> },
+      <p>Σε λίγες σύντομες διαφάνειες βλέπεις πώς δουλεύει, τι μπορεί να γίνει με τα χρόνια και τι να ξέρεις πριν ξεκινήσεις.</p></> },
   { tag: 'Για ποιο σκοπό', title: 'Για σένα ή για τα παιδιά σου',
     body: <div className="sav-cards">
       <div className="card"><span className="tag">Σύνταξη</span><h3>Κεφάλαιο για τη σύνταξη</h3><p>Για να μη χρειάζεται να στηριχτείς μόνο στη σύνταξη του ταμείου.</p><p className="sav-ex">Ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο για τη μέρα που θα σταματήσεις να εργάζεσαι.</p></div>
@@ -108,49 +109,3 @@ const SLIDES: { tag: string; title: string; body: ReactNode }[] = [
     body: <><p className="sav-lead">Πόσο να βάζεις, για πόσα χρόνια και με πόσο ρίσκο. Τα βρίσκουμε μαζί, με τους δικούς σου στόχους.</p>
       <div className="actions"><a className="btn" href={href('epikoinonia')}>Θέλω να με καλέσεις</a><a className="btn ghost" href={href('syntaxi')}>Πόσο να βάζω για τη σύνταξη;</a></div></> },
 ]
-
-export function SavingsDeck() {
-  const [i, setI] = useState(0)
-  const touch = useRef<number | null>(null)
-  const root = useRef<HTMLElement>(null)
-  const go = (n: number) => setI(Math.max(0, Math.min(SLIDES.length - 1, n)))
-  useEffect(() => {
-    const k = (e: KeyboardEvent) => {
-      if ((e.target as HTMLElement).closest('input, button, a')) return
-      if (e.key === 'ArrowRight') go(i + 1)
-      if (e.key === 'ArrowLeft') go(i - 1)
-    }
-    addEventListener('keydown', k); return () => removeEventListener('keydown', k)
-  }, [i])
-  const prev = useRef(i)
-  useEffect(() => {
-    if (prev.current !== i) root.current?.querySelector<HTMLElement>('.sav-slide.on h2')?.focus({ preventScroll: true })
-    prev.current = i
-  }, [i])
-  return <section className="card sav-deck" ref={root} aria-roledescription="παρουσίαση" aria-label="Πώς δουλεύει η αποταμίευση"
-    onTouchStart={e => { touch.current = e.touches[0].clientX }}
-    onTouchEnd={e => {
-      if (touch.current == null || (e.target as HTMLElement).closest('input')) return
-      const dx = e.changedTouches[0].clientX - touch.current; touch.current = null
-      if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1))
-    }}>
-    <div className="dots" aria-hidden="true">{SLIDES.map((_, j) => <span key={j} className={j < i ? 'on' : j === i ? 'cur' : ''} />)}</div>
-    {SLIDES.map((s, j) => <div key={s.title} className={'sav-slide' + (j === i ? ' on' : '')} hidden={j !== i} aria-roledescription="διαφάνεια" aria-label={`${j + 1} από ${SLIDES.length}`}>
-      <span className="tag">{s.tag}</span><h2 tabIndex={-1}>{s.title}</h2>{s.body}
-    </div>)}
-    <div className="sav-nav">
-      <button className="btn ghost" type="button" onClick={() => go(i - 1)} disabled={i === 0}>← Πίσω</button>
-      <span className="small">{i + 1} / {SLIDES.length}</span>
-      <button className="btn" type="button" onClick={() => go(i + 1)} disabled={i === SLIDES.length - 1}>Επόμενο →</button>
-    </div>
-  </section>
-}
-
-export function SavingsPage() {
-  return <>
-    <span className="tag">Παρουσίαση</span>
-    <h1>Πώς δουλεύει <em>η αποταμίευση</em></h1>
-    <p className="lead">Με απλά λόγια, σε έξι διαφάνειες. Πέρασέ τες με τα κουμπιά ή σύρε με το δάχτυλο.</p>
-    <SavingsDeck />
-  </>
-}

@@ -5,13 +5,13 @@ import mark from './mark'
 import logo from './logo'
 import { useDepth, useFx } from './Fx'
 import { Pension, CoverMap, ToolsPage, QUIZ } from './Tools'
-import { SavingsPage } from './Savings'
+import { DECKS, Deck, DeckPage, type DeckKey } from './Decks'
 import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './routes'
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
 const NAV = [['arxiki', 'Αρχική'], ['stigmes', 'Στιγμές ζωής'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επαφή']]
-const SAVINGS_MOMENTS = ['oikogeneia', 'syntaxi', 'proti-douleia']
+const DECK_KEYS = Object.keys(DECKS) as DeckKey[]
 
 const ICON: Record<string, ReactElement> = {
   spark: <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18" />,
@@ -69,7 +69,8 @@ function Home() {
     <p className="lead">Κάθε στιγμή φέρνει τις δικές της ερωτήσεις. Διάλεξε τη δική σου.</p>
     <MomentCards />
 
-    <a className="card band" href={href('apotamieusi')}><span className="tag">Παρουσίαση</span><h2>Πώς δουλεύει η αποταμίευση</h2><p>Έξι διαφάνειες με απλά λόγια, και ένα γράφημα που δείχνει τι μπορεί να γίνει με τα χρόνια.</p><span className="more">Δες την παρουσίαση →</span></a>
+    <h2 className="section">Πώς δουλεύει, με απλά λόγια</h2>
+    <div className="deck-more">{DECK_KEYS.map(k => <a key={k} className="card" href={href(k)}><span className="tag">Παρουσίαση</span><h3>{DECKS[k].label}</h3><p>{DECKS[k].lead}</p><span className="more">Άνοιξε →</span></a>)}</div>
     <div className="grid two" style={{ marginTop: 14 }}>
       <a className="card" href={href('xartis')}><span className="tag">1 λεπτό</span><h3>Ο χάρτης της προστασίας σου</h3><p>Έξι περιοχές, ένα πάτημα στην καθεμιά.</p><span className="more">Ξεκίνα →</span></a>
       <a className="card" href={href('syntaxi')}><span className="tag">3 ερωτήσεις</span><h3>Πόσο να βάζω για τη σύνταξη;</h3><p>Ένα νούμερο για κάθε μήνα, από σήμερα.</p><span className="more">Υπολόγισε →</span></a>
@@ -90,16 +91,25 @@ function Moments() {
 }
 
 function MomentPage({ id }: { id: string }) {
+  const [open, setOpen] = useState<number | null>(null)
   const m = MOMENTS.find(x => x.id === id)
   if (!m) return <Moments />
   const i = MOMENTS.indexOf(m), next = MOMENTS[(i + 1) % MOMENTS.length]
+  const toggle = (j: number) => {
+    setOpen(o => (o === j ? null : j))
+    requestAnimationFrame(() => document.getElementById('need-' + j)?.scrollIntoView({ block: 'start', behavior: 'smooth' }))
+  }
   return <>
     <a className="more" href={href('stigmes')}>← Όλες οι στιγμές</a>
     <div className="mhead"><Ico n={m.icon} /><div><span className="tag">Στιγμή ζωής</span><h1>{m.title}</h1></div></div>
     <blockquote className="worry">{m.worry}</blockquote>
     <h2 className="section">Τι αξίζει να σκεφτείς</h2>
-    <div className="stack">{m.needs.map((n, j) => <article className="card step" key={n.t} style={{ ['--i' as string]: j }}><span className="step-n">{j + 1}</span><div><h3>{n.t}</h3><p>{n.d}</p></div></article>)}</div>
-    {SAVINGS_MOMENTS.includes(m.id) && <a className="card band" href={href('apotamieusi')}><span className="tag">Παρουσίαση</span><h2>Δες πώς δουλεύει η αποταμίευση</h2><p>Με απλά λόγια, σε έξι διαφάνειες.</p><span className="more">Άνοιξε →</span></a>}
+    <div className={'stack' + (open != null ? ' has-open' : '')}>{m.needs.map((n, j) => <article id={'need-' + j} className={'card step' + (open === j ? ' open' : '')} key={n.t} style={{ ['--i' as string]: j }}>
+      <span className="step-n">{j + 1}</span>
+      <div className="step-body"><h3>{n.t}</h3><p>{n.d}</p>
+        {n.deck && <button type="button" className="step-toggle" aria-expanded={open === j} aria-controls={'deck-' + j} onClick={() => toggle(j)}>{open === j ? 'Κλείσε την παρουσίαση ▴' : DECKS[n.deck].label + ' ▾'}</button>}
+        {n.deck && open === j && <div id={'deck-' + j} className="step-deck"><Deck k={n.deck} bare /></div>}
+      </div></article>)}</div>
     <p className="small disclaimer">Γενική ενημέρωση. Τι ακριβώς σου ταιριάζει εξαρτάται από την ηλικία, το εισόδημα και όσα ήδη έχεις.</p>
     <Callback topic={m.title} />
     <a className="card band" href={href('stigmi-' + next.id)}><span className="tag">Επόμενη στιγμή</span><h2>{next.title}</h2><p>{next.lead}</p><span className="more">Συνέχισε →</span></a>
@@ -209,9 +219,9 @@ export default function App({ initial }: { initial?: string }) {
     addEventListener('keydown', k); return () => removeEventListener('keydown', k)
   }, [menu])
   useFx(route)
-  const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi', 'apotamieusi'].includes(route) ? 'ergaleia' : route
-  const page = route === 'stigmes' ? <Moments /> : route.startsWith('stigmi-') ? <MomentPage id={route.slice(7)} />
-    : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : route === 'apotamieusi' ? <SavingsPage />
+  const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi', ...DECK_KEYS].includes(route) ? 'ergaleia' : route
+  const page = route === 'stigmes' ? <Moments /> : route.startsWith('stigmi-') ? <MomentPage key={route} id={route.slice(7)} />
+    : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : DECK_KEYS.includes(route as DeckKey) ? <DeckPage k={route as DeckKey} />
     : route === 'blog' ? <><span className="tag">Άρθρα</span><h1>Ασφάλεια, <em>με απλά λόγια</em></h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις πριν υπογράψεις.</p><Posts /></>
     : route.startsWith('arthro-') ? <Article id={route.slice(7)} />
     : route === 'epikoinonia' ? <><span className="tag">Επαφή</span><h1>Ας μιλήσουμε</h1><p className="lead">Ένα τηλεφώνημα, ένας καφές στην Έδεσσα ή μια βιντεοκλήση. Όπως σε βολεύει.</p><Callback /></>
