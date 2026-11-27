@@ -34,7 +34,7 @@ export function useFx(route: string) {
     let cur: HTMLElement | null = null
     const reset = (c: HTMLElement) => { c.style.removeProperty('--rx'); c.style.removeProperty('--ry') }
     const mv = (e: PointerEvent) => {
-      const c = (e.target as HTMLElement).closest<HTMLElement>('.card:not(.booking):not(.calc .card):not(.face):not(.step)')
+      const c = (e.target as HTMLElement).closest<HTMLElement>('.card:not(.callback):not(.sav-deck):not(.face):not(.step)')
       if (cur && cur !== c) reset(cur); cur = c; if (!c) return
       const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5
       c.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg'); c.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg')
@@ -44,14 +44,4 @@ export function useFx(route: string) {
     addEventListener('pointermove', mv); document.addEventListener('pointerleave', out)
     return () => { removeEventListener('pointermove', mv); document.removeEventListener('pointerleave', out) }
   }, [])
-}
-
-/** 3D μπάρες: κρατική σύνταξη απέναντι στο κενό */
-export function Bars3D({ state, gap }: { state: number; gap: number }) {
-  const max = Math.max(state + gap, 1)
-  return <div className="bars3d" aria-hidden="true">
-    <div className="bar3d" style={{ ['--h' as string]: state / max }}><i /><span>Κρατική</span></div>
-    <div className="bar3d gap" style={{ ['--h' as string]: gap / max }}><i /><span>Κενό</span></div>
-    <div className="bar3d goal" style={{ ['--h' as string]: 1 }}><i /><span>Στόχος</span></div>
-  </div>
 }
