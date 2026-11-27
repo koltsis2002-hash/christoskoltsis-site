@@ -3,3 +3,4 @@ dist
 bundle.html
 .parcel-cache
 .DS_Store
+dist-ssr

@@ -25,6 +25,12 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # Switch to '/' and https://christoskoltsis.gr once the domain is connected (Phase 4).
+          SITE_BASE: /christoskoltsis-site/
+          SITE_URL: https://koltsis2002-hash.github.io/christoskoltsis-site
+          # Keep 'false' (hidden from Google) until the texts are approved (Phase 6).
+          SITE_INDEX: 'false'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

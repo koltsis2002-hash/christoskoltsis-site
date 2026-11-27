@@ -169,7 +169,7 @@ header.open .burger i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
   .pill nav a{padding:14px 16px;font-size:17px;border-radius:14px}
 }
 @media(max-width:380px){.brand b{font-size:14px}.book{padding:0 12px}}
-main{padding-top:8px}
+main{padding-top:28px}
 
 .hero2{position:relative;display:grid;align-items:end;min-height:min(calc(100svh - 110px),760px);margin:0 -16px;padding:0 16px;overflow:clip;isolation:isolate}
 .sig{position:absolute;left:50%;bottom:6%;z-index:-1;font-family:"Noto Serif Display",Georgia,serif;font-style:italic;font-weight:500;font-size:min(19vw,215px);line-height:.8;letter-spacing:-.04em;white-space:nowrap;color:transparent;background:linear-gradient(180deg,rgba(229,100,16,.22),rgba(229,100,16,.06) 90%);-webkit-background-clip:text;background-clip:text;transform:translate(calc(-50% + var(--mx,0)*-40px),calc(var(--my,0)*-22px));user-select:none;pointer-events:none}

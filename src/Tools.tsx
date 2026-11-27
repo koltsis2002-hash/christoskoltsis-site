@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Bars3D } from './Fx'
+import { href } from './routes'
 
 const eur = (n: number) => (isFinite(n) ? Math.round(n) : 0).toLocaleString('el-GR') + ' €'
 
@@ -51,7 +52,7 @@ export function Pension() {
           <div className="big-num accent"><small>Χρειάζεται να αποταμιεύεις</small><b>{eur(res.monthly)}<span>/μήνα</span></b></div>
           <p>για {res.years} χρόνια, ώστε να έχεις περίπου {eur(res.capital)} στα {ret} σου (σε σημερινά χρήματα).</p>
         </> : <p className="ok">Με αυτές τις παραδοχές δεν φαίνεται κενό. Αξίζει όμως να το ελέγξουμε με τα πραγματικά σου στοιχεία.</p>}
-        <a className="btn" href="#rantevou">Βρες μου τρόπο να το κλείσω →</a>
+        <a className="btn" href={href('rantevou')}>Βρες μου τρόπο να το κλείσω →</a>
       </div>
     </div>
     <p className="small disclaimer">Ενδεικτικός υπολογισμός, όχι ασφαλιστική ή επενδυτική συμβουλή. Δεν εγγυάται αποδόσεις. Η κρατική σύνταξη απλοποιείται ως ποσοστό του εισοδήματος. Δεν υπολογίζονται φόροι και έξοδα. Τα στοιχεία που γράφεις δεν αποθηκεύονται.</p>
@@ -98,7 +99,7 @@ export function Checkup() {
         <p>{score >= 75 ? 'Είσαι σε καλό δρόμο! Ας δούμε τις λεπτομέρειες.' : score >= 45 ? 'Έχεις βάσεις, αλλά υπάρχουν κενά που αξίζει να κλείσεις.' : 'Υπάρχουν σημαντικά κενά. Η καλή είδηση: διορθώνονται βήμα βήμα.'}</p>
         <h3>Ξεκίνα από εδώ</h3>
         <ol className="gaps">{byArea.map(x => <li key={x.k}><b>{x.k}</b> ({x.v}/20): {TIPS[x.k]}</li>)}</ol>
-        <div className="actions"><a className="btn" href="#rantevou">Θέλω να τα δούμε μαζί</a><button className="btn ghost" onClick={() => setA([])}>Ξανά από την αρχή</button></div>
+        <div className="actions"><a className="btn" href={href('rantevou')}>Θέλω να τα δούμε μαζί</a><button className="btn ghost" onClick={() => setA([])}>Ξανά από την αρχή</button></div>
       </>}
     </div>
     <p className="small disclaimer">Εργαλείο αυτοαξιολόγησης, όχι ασφαλιστική πρόταση. Οι απαντήσεις σου δεν αποθηκεύονται.</p>
@@ -109,10 +110,10 @@ export function ToolsPage() {
   return <>
     <h1>Εργαλεία</h1><p className="lead">Μικρά, δωρεάν εργαλεία για να δεις πού βρίσκεσαι. Χωρίς εγγραφή.</p>
     <div className="grid">
-      <a className="card" href="#checkup"><span className="tag">2 λεπτά</span><h3>Τεστ κάλυψης</h3><p>10 ερωτήσεις, σκορ στα 100 και από πού να ξεκινήσεις.</p><span className="more">Ξεκίνα →</span></a>
-      <a className="card" href="#syntaxi"><span className="tag">1 λεπτό</span><h3>Υπολογιστής σύνταξης</h3><p>Πόσα θα σου λείπουν κάθε μήνα και πόσα να αποταμιεύεις.</p><span className="more">Υπολόγισε →</span></a>
+      <a className="card" href={href('checkup')}><span className="tag">2 λεπτά</span><h3>Τεστ κάλυψης</h3><p>10 ερωτήσεις, σκορ στα 100 και από πού να ξεκινήσεις.</p><span className="more">Ξεκίνα →</span></a>
+      <a className="card" href={href('syntaxi')}><span className="tag">1 λεπτό</span><h3>Υπολογιστής σύνταξης</h3><p>Πόσα θα σου λείπουν κάθε μήνα και πόσα να αποταμιεύεις.</p><span className="more">Υπολόγισε →</span></a>
       <a className="card" href="https://koltsis2002-hash.github.io/--questionnaire/" target="_blank" rel="noreferrer"><span className="tag">5 βήματα</span><h3>Ερωτηματολόγιο αναγκών</h3><p>Οι ανάγκες σου και το κόστος για να τις καλύψεις.</p><span className="more">Άνοιξε →</span></a>
-      <a className="card" href="#konta"><span className="tag">Βόρεια Ελλάδα</span><h3>Υγεία κοντά σου</h3><p>Γιατί μετράει πού βρίσκεται το νοσοκομείο του προγράμματός σου.</p><span className="more">Μάθε περισσότερα →</span></a>
+      <a className="card" href={href('konta')}><span className="tag">Βόρεια Ελλάδα</span><h3>Υγεία κοντά σου</h3><p>Γιατί μετράει πού βρίσκεται το νοσοκομείο του προγράμματός σου.</p><span className="more">Μάθε περισσότερα →</span></a>
     </div>
   </>
 }
@@ -134,7 +135,7 @@ export function Funds() {
     <div className="card cta">
       <h2>Θες να δεις τα κεφάλαια;</h2>
       <p>Τις αποδόσεις και τη σύνθεση των κεφαλαίων τις βλέπουμε μαζί, με τα επίσημα ενημερωτικά στο χέρι.</p>
-      <div className="actions"><a className="btn" href="#rantevou">Συζήτησέ το μαζί μου</a></div>
+      <div className="actions"><a className="btn" href={href('rantevou')}>Συζήτησέ το μαζί μου</a></div>
     </div>
     <p className="small disclaimer">Οι προηγούμενες αποδόσεις δεν εγγυώνται μελλοντικές. Η αξία μιας επένδυσης μπορεί να ανέβει ή να πέσει και μπορεί να πάρεις πίσω λιγότερα από όσα έβαλες. Διάβασε το Έγγραφο Βασικών Πληροφοριών (KID) κάθε προϊόντος πριν αποφασίσεις.</p>
   </>
@@ -151,7 +152,7 @@ export function Near() {
       ['Υποστήριξη όλο το 24ωρο', 'Ιατρικές συμβουλές, βοήθεια να βρεις γιατρό και συντονισμός μεταφοράς, όταν το χρειαστείς.'],
       ['Κοντά στη Βόρεια Ελλάδα', 'Βλέπουμε μαζί ποιες επιλογές υπάρχουν κοντά σε σένα και στην οικογένειά σου.']].map(([t, d]) =>
       <div className="card" key={t}><h3>{t}</h3><p>{d}</p></div>)}</div>
-    <div className="card cta"><h2>Θες να δεις τι ισχύει κοντά σου;</h2><p>Πες μου πού μένεις και σου δείχνω τις επιλογές.</p><div className="actions"><a className="btn" href="#epikoinonia">Ρώτησέ με</a></div></div>
+    <div className="card cta"><h2>Θες να δεις τι ισχύει κοντά σου;</h2><p>Πες μου πού μένεις και σου δείχνω τις επιλογές.</p><div className="actions"><a className="btn" href={href('epikoinonia')}>Ρώτησέ με</a></div></div>
     <p className="small disclaimer">Γενική ενημέρωση. Τα νοσοκομεία και τα προνόμια εξαρτώνται από το πρόγραμμα και μπορεί να αλλάξουν.</p>
   </>
 }

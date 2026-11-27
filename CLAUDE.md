@@ -23,7 +23,9 @@
 - Vite + React + TypeScript, με CSS στο `src/index.css` (όχι Tailwind στην πράξη). Τα εφέ (βάθος στην πρώτη οθόνη, κλίση καρτών, εμφάνιση με κύλιση) είναι στο `src/Fx.tsx`, χωρίς three.js.
 - Η φωτογραφία χωρίς φόντο είναι στο `src/cutout.webp` (βγήκε με `rembg` από το `src/photo.jpg`).
 - `npm install`, μετά `npm run dev` για δοκιμή και `npm run build` για το τελικό (φάκελος `dist/`).
-- Σελίδες με `#hash` (στο `src/App.tsx`): arxiki, idiotes, epixeiriseis, ergaleia (syntaxi, checkup, kefalaia, konta), blog, arthro-*, epikoinonia, rantevou, programmata, aporrito.
+- Σελίδες με κανονικές διευθύνσεις, π.χ. `/idiotes/`, `/arthra/anamoni/` (λίστα, τίτλοι και περιγραφές για τη Google στο `src/routes.ts`). Οι παλιοί σύνδεσμοι `#idiotes` μεταφέρονται αυτόματα.
+- Το `npm run build` φτιάχνει έτοιμο HTML για κάθε σελίδα (`scripts/prerender.mjs`, μέσω `src/entry-server.tsx`), μαζί με `sitemap.xml`, `robots.txt` και τα στοιχεία του Χρήστου για τη Google (JSON-LD). Η εικόνα για κοινοποίηση είναι το `public/og.jpg`.
+- Ρυθμίσεις στο `.github/workflows/deploy.yml`: `SITE_BASE` και `SITE_URL` (αλλάζουν σε `/` και `https://christoskoltsis.gr` στη Φάση 4) και `SITE_INDEX` (γίνεται `'true'` στη Φάση 6, για να εμφανίζεται στη Google).
 - Δεδομένα: `src/data.ts` · Εργαλεία (υπολογιστής σύνταξης, τεστ κάλυψης): `src/Tools.tsx`.
 
 ## Τι είναι ήδη έτοιμο στο Supabase (έργο «Koltsis», id `rcvdnisyznxhwdfakhfl`)
@@ -60,7 +62,7 @@
 Έγινε: repo `koltsis2002-hash/christoskoltsis-site` (δημόσιο προς το παρόν· όταν πάρει GitHub Pro μπορεί να γίνει ιδιωτικό).
 - `.github/workflows/deploy.yml`: ανεβάζει το σάιτ σε κάθε αλλαγή στο `main`. Μία φορά: Settings → Pages → Source: **GitHub Actions**.
 - `.github/workflows/supabase-keepalive.yml`: κάνει ένα ερώτημα στη βάση κάθε μέρα, για να μη μπαίνει σε παύση. Θέλει το secret `SUPABASE_PUBLISHABLE_KEY` (Settings → Secrets and variables → Actions).
-- Το `vite.config.ts` έχει `base: './'`, ώστε το σάιτ να δουλεύει και στο `koltsis2002-hash.github.io/christoskoltsis-site/` και στο domain.
+- Μέχρι το domain, το σάιτ ζει στο `koltsis2002-hash.github.io/christoskoltsis-site/` (`SITE_BASE` στο `deploy.yml`).
 
 ### Φάση 3: Telegram (τα κάνει ο Χρήστος, εσύ τον καθοδηγείς)
 1. Στο Telegram ανοίγει τον **@BotFather** → `/newbot` → όνομα, π.χ. «Koltsis Leads» → παίρνει τον **κωδικό (token)**.
@@ -89,7 +91,8 @@
 - **Μην αλλάξεις** τίποτα άλλο στο JARVIS. Πάρε αντίγραφο πριν από την αλλαγή και δοκίμασε με ένα δοκιμαστικό lead.
 
 ### Φάση 6: Πριν βγει στο κοινό
-- Βγάζεις τη λωρίδα «Προεπισκόπηση».
+- Βγάζεις τη λωρίδα «Προεπισκόπηση» και βάζεις `SITE_INDEX: 'true'` στο `deploy.yml`.
+- Ο Χρήστος φτιάχνει **Google Business Profile** και δηλώνει το σάιτ και το `sitemap.xml` στο **Google Search Console** (εσύ τον καθοδηγείς).
 - Ολοκληρώνεις την **πολιτική απορρήτου** (GDPR): ποια στοιχεία κρατάς, για πόσο, ποιος τα βλέπει (Supabase, Telegram) και πώς ζητά κανείς διαγραφή.
 - Ελέγχεις όλους τους συνδέσμους, το τηλέφωνο και το email σε κινητό.
 - Εγκρίσεις: Χρήστος, manager, Θανάσης και, αν χρειάζεται, η NN Hellas για τη χρήση του ονόματός της.

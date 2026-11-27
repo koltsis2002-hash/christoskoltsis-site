@@ -3,8 +3,8 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  // Relative paths so the build works both at the GitHub Pages subpath and at the custom domain root
-  base: './',
+  // '/christoskoltsis-site/' while the site lives on github.io, '/' once the domain is connected
+  base: process.env.SITE_BASE || '/',
   plugins: [react()],
   resolve: {
     alias: {

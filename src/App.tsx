@@ -5,16 +5,16 @@ import mark from './mark'
 import logo from './logo'
 import { useDepth, useFx } from './Fx'
 import { Pension, Checkup, ToolsPage, Funds, Near } from './Tools'
+import { href, keyFromPath, meta, ROUTES, BASE } from './routes'
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
 const QUIZ = 'https://koltsis2002-hash.github.io/--questionnaire/'
 const NAV = [['arxiki','Αρχική'],['idiotes','Ιδιώτες'],['epixeiriseis','Επιχειρήσεις'],['ergaleia','Εργαλεία'],['blog','Άρθρα'],['epikoinonia','Επαφή']]
-const read = () => { try { return window.location.hash.slice(1) || 'arxiki' } catch { return 'arxiki' } }
 
 function Posts() {
   return <div className="grid">{POSTS.map(p => (
-    <a className="card post" key={p.id} href={'#arthro-' + p.id}>
+    <a className="card post" key={p.id} href={href('arthro-' + p.id)}>
       <span className="tag">{p.cat}</span><h3>{p.title}</h3><p>{p.lead}</p><span className="more">Διάβασε →</span>
     </a>))}</div>
 }
@@ -33,7 +33,7 @@ function Home() {
         <span className="tag rise" style={{ ['--d' as string]: 0 }}>Γεια σου, είμαι ο Χρήστος</span>
         <h1 className="hero-title"><Words text="Ο σύμβουλός σου για" /> <em><Words text="ό,τι μετράει" from={4} /></em></h1>
         <p className="rise" style={{ ['--d' as string]: 7 }}>Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα. Σε ακούω πρώτα, σου εξηγώ απλά και αποφασίζεις εσύ.</p>
-        <div className="actions rise" style={{ ['--d' as string]: 8 }}><a className="btn" href="#rantevou">Ας γνωριστούμε</a><a className="btn ghost" href={'tel:' + PHONE}>{PHONE}</a></div>
+        <div className="actions rise" style={{ ['--d' as string]: 8 }}><a className="btn" href={href('rantevou')}>Ας γνωριστούμε</a><a className="btn ghost" href={'tel:' + PHONE}>{PHONE}</a></div>
       </div>
       <figure className="cut"><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /></figure>
     </section>
@@ -60,18 +60,18 @@ function Home() {
 
     <h2 className="section" id="ypiresies">Πού μπορώ να βοηθήσω</h2>
     <div className="grid two">
-      <a className="card big" href="#idiotes"><span className="tag">Ιδιώτες</span><h3>Οικογένεια &amp; προσωπικά σχέδια</h3><p>Ζωή, υγεία, σύνταξη, αποταμίευση και σπίτι.</p><span className="more">Δες τις λύσεις →</span></a>
-      <a className="card big" href="#epixeiriseis"><span className="tag">Επιχειρήσεις</span><h3>Επιχειρήσεις &amp; ελεύθεροι επαγγελματίες</h3><p>Key person, συνεταίροι, ομαδικά προγράμματα, ευθύνη και cyber.</p><span className="more">Δες τις λύσεις →</span></a>
+      <a className="card big" href={href('idiotes')}><span className="tag">Ιδιώτες</span><h3>Οικογένεια &amp; προσωπικά σχέδια</h3><p>Ζωή, υγεία, σύνταξη, αποταμίευση και σπίτι.</p><span className="more">Δες τις λύσεις →</span></a>
+      <a className="card big" href={href('epixeiriseis')}><span className="tag">Επιχειρήσεις</span><h3>Επιχειρήσεις &amp; ελεύθεροι επαγγελματίες</h3><p>Key person, συνεταίροι, ομαδικά προγράμματα, ευθύνη και cyber.</p><span className="more">Δες τις λύσεις →</span></a>
     </div>
 
     <h2 className="section">Δοκίμασε μόνος σου</h2>
     <div className="grid">
       <a className="card" href={QUIZ} target="_blank" rel="noreferrer"><span className="tag">2 λεπτά</span><h3>Βρες τις ανάγκες σου</h3><p>Ερωτηματολόγιο 5 βημάτων με τις ανάγκες σου και το κόστος κάλυψης.</p><span className="more">Ξεκίνα →</span></a>
-      <a className="card" href="#syntaxi"><span className="tag">1 λεπτό</span><h3>Υπολογιστής σύνταξης</h3><p>Πόσα θα σου λείπουν κάθε μήνα στη σύνταξη.</p><span className="more">Υπολόγισε →</span></a>
-      <a className="card" href="#checkup"><span className="tag">2 λεπτά</span><h3>Check-up προστασίας</h3><p>Πόσο καλυμμένος είσαι σε υγεία, εισόδημα, οικογένεια και σπίτι.</p><span className="more">Κάνε το check-up →</span></a>
+      <a className="card" href={href('syntaxi')}><span className="tag">1 λεπτό</span><h3>Υπολογιστής σύνταξης</h3><p>Πόσα θα σου λείπουν κάθε μήνα στη σύνταξη.</p><span className="more">Υπολόγισε →</span></a>
+      <a className="card" href={href('checkup')}><span className="tag">2 λεπτά</span><h3>Check-up προστασίας</h3><p>Πόσο καλυμμένος είσαι σε υγεία, εισόδημα, οικογένεια και σπίτι.</p><span className="more">Κάνε το check-up →</span></a>
     </div>
 
-    <a className="card band" href="#konta"><span className="tag">Βόρεια Ελλάδα</span><h2>Υγεία κοντά σου</h2><p>Τι κερδίζεις όταν το πρόγραμμά σου συνεργάζεται με νοσοκομεία κοντά στο σπίτι σου.</p><span className="more">Μάθε περισσότερα →</span></a>
+    <a className="card band" href={href('konta')}><span className="tag">Βόρεια Ελλάδα</span><h2>Υγεία κοντά σου</h2><p>Τι κερδίζεις όταν το πρόγραμμά σου συνεργάζεται με νοσοκομεία κοντά στο σπίτι σου.</p><span className="more">Μάθε περισσότερα →</span></a>
     <h2 className="section">Τελευταία άρθρα</h2><Posts />
     <Booking />
   </>
@@ -81,8 +81,8 @@ function Individuals() {
     <span className="tag">Ιδιώτες</span><h1>Ήσυχος για σένα και <em>τους ανθρώπους σου</em></h1>
     <p className="lead">Από ένα απρόοπτο στο νοσοκομείο μέχρι τη σύνταξη, βρίσκουμε μαζί τι σου ταιριάζει, με το κόστος ξεκάθαρο από την αρχή.</p>
     <div className="grid">{INDIVIDUALS.map((x,i) => <article className="card" key={x.t}><span className="num">{i+1}</span><h3>{x.t}</h3><p>{x.d}</p>
-      <a className="more" href="#programmata" onClick={() => sessionPick(x.c as Cat)}>Τα προγράμματα →</a></article>)}</div>
-    <Cta other={['#epixeiriseis','Λύσεις για επιχειρήσεις']} />
+      <a className="more" href={href('programmata')} onClick={() => sessionPick(x.c as Cat)}>Τα προγράμματα →</a></article>)}</div>
+    <Cta other={[href('epixeiriseis'),'Λύσεις για επιχειρήσεις']} />
   </>
 }
 function Business() {
@@ -91,15 +91,16 @@ function Business() {
     <p className="lead">Ξεκινάμε από αυτό που δεν γυρίζει πίσω, δηλαδή τους ανθρώπους. Μετά βλέπουμε τα ομαδικά προγράμματα, το φορολογικό όφελος και την περιουσία της επιχείρησης.</p>
     {BUSINESS.map(g => <section key={g.g}><h2 className="section">{g.g}</h2>
       <div className="grid">{g.items.map(([t,d]) => <article className="card" key={t}><h3>{t}</h3><p>{d}</p></article>)}</div></section>)}
-    <Cta other={['#idiotes','Λύσεις για ιδιώτες']} />
+    <Cta other={[href('idiotes'),'Λύσεις για ιδιώτες']} />
   </>
 }
 function Cta({ other }: { other: string[] }) {
   return <div className="card cta"><h2>Θες να το δούμε για τη δική σου περίπτωση;</h2><p>Ένας καφές ή μια βιντεοκλήση, χωρίς καμία δέσμευση.</p>
-    <div className="actions"><a className="btn" href="#rantevou">Ας γνωριστούμε</a><a className="btn ghost" href={other[0]}>{other[1]}</a></div></div>
+    <div className="actions"><a className="btn" href={href('rantevou')}>Ας γνωριστούμε</a><a className="btn ghost" href={other[0]}>{other[1]}</a></div></div>
 }
 const LEAD_URL = 'https://rcvdnisyznxhwdfakhfl.supabase.co/functions/v1/site-lead'
-function Booking() {
+function Booking({ h1 = false }: { h1?: boolean }) {
+  const H = h1 ? 'h1' : 'h2'
   const [f, setF] = useState({ name: '', phone: '', email: '', topic: '', meet: '', pref_day: '', pref_slot: 'Οποιαδήποτε', message: '', consent: false, website: '' })
   const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle')
   const [msg, setMsg] = useState('')
@@ -118,7 +119,7 @@ function Booking() {
   }
   if (state === 'ok') return <section className="card booking" id="rantevou-form"><h2>Ευχαριστώ, {f.name.split(' ')[0]}! 😊</h2><p>Πήρα το αίτημά σου και θα σε καλέσω σύντομα.</p></section>
   return <section className="card booking" id="rantevou-form">
-    <h2>Ας γνωριστούμε, χωρίς δέσμευση</h2>
+    <H>Ας γνωριστούμε, χωρίς δέσμευση</H>
     <p>Πες μου λίγα λόγια και θα σε πάρω τηλέφωνο. Αν έχεις ήδη συμβόλαια, φέρ' τα να τα δούμε μαζί. Ή κάλεσέ με στο <b>{PHONE}</b>.</p>
     <form onSubmit={send}>
       <div className="row"><label>Ονοματεπώνυμο *<input autoComplete="name" required value={f.name} onChange={e => set('name', e.target.value)} /></label>
@@ -130,7 +131,7 @@ function Booking() {
       <div className="row"><label>Προτιμώμενη μέρα<input type="date" value={f.pref_day} onChange={e => set('pref_day', e.target.value)} /></label>
         <label>Ώρα<select value={f.pref_slot} onChange={e => set('pref_slot', e.target.value)}><option>Οποιαδήποτε</option><option>Πρωί</option><option>Μεσημέρι</option><option>Απόγευμα</option></select></label></div>
       <label>Μήνυμα (προαιρετικό)<textarea rows={3} maxLength={1500} value={f.message} onChange={e => set('message', e.target.value)} /></label>
-      <label className="check"><input type="checkbox" checked={f.consent} onChange={e => set('consent', e.target.checked)} /><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για να επικοινωνήσεις μαζί μου για το αίτημά μου. <a href="#aporrito">Απόρρητο</a> *</span></label>
+      <label className="check"><input type="checkbox" checked={f.consent} onChange={e => set('consent', e.target.checked)} /><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για να επικοινωνήσεις μαζί μου για το αίτημά μου. <a href={href('aporrito')}>Απόρρητο</a> *</span></label>
       <button className="btn" disabled={!valid || state === 'sending'}>{state === 'sending' ? 'Αποστολή…' : 'Θέλω να με καλέσεις'}</button>
       {msg && <p className="small" role="alert">{msg}</p>}
     </form>
@@ -157,7 +158,7 @@ function Programs() {
           {p.valid && <small className="small">Όροι σε ισχύ από {p.valid}</small>}<span className="more">↻ Πίσω</span></span>
       </button>})}</div>
     <p className="small disclaimer">Γενική ενημέρωση. Οι καλύψεις και το κόστος εξαρτώνται από το πρόγραμμα, την ηλικία και τις επιλογές σου.</p>
-    <Cta other={['#checkup','Κάνε το τεστ κάλυψης']} />
+    <Cta other={[href('checkup'),'Κάνε το τεστ κάλυψης']} />
   </>
 }
 
@@ -173,11 +174,11 @@ function Finder({ go }: { go: (c: Cat) => void }) {
 function Article({ id }: { id: string }) {
   const p = POSTS.find(x => x.id === id)
   if (!p) return <Posts />
-  return <article className="article"><a className="more" href="#blog">← Όλα τα άρθρα</a><span className="tag">{p.cat}</span><h1>{p.title}</h1><p className="lead">{p.lead}</p>
+  return <article className="article"><a className="more" href={href('blog')}>← Όλα τα άρθρα</a><span className="tag">{p.cat}</span><h1>{p.title}</h1><p className="lead">{p.lead}</p>
     {p.body.map(t => <p key={t}>{t}</p>)}
     <div className="note"><b>Μια συμβουλή:</b> {p.tip}</div>
     <p className="small">Γενική ενημέρωση. Ισχύουν πάντα οι όροι του κάθε συμβολαίου.</p>
-    <a className="btn" href="#epikoinonia">Πάμε να το δούμε μαζί 😊</a></article>
+    <a className="btn" href={href('epikoinonia')}>Πάμε να το δούμε μαζί 😊</a></article>
 }
 
 function Contact() {
@@ -188,20 +189,12 @@ function Contact() {
   return <>
     <h1>Πώς προτιμάς να μιλήσουμε;</h1><p className="lead">Διάλεξε ό,τι σε βολεύει.</p>
     <div className="chips">{ways.map(([k,l]) => <button key={k} aria-pressed={way === k} onClick={() => { setWay(k); setCopied('') }}>{l}</button>)}</div>
-    <div className="card contact">
+    {way === 'form' ? <Booking /> : <div className="card contact">
       {way === 'call' && <><h2>{PHONE}</h2><p>Πάρε με για μια πρώτη κουβέντα.</p><div className="actions"><a className="btn" href={'tel:' + PHONE}>Κλήση</a><button className="btn ghost" onClick={() => copy(PHONE)}>Αντιγραφή</button></div></>}
       {way === 'mail' && <><h2 className="mail">{MAIL}</h2><p>Γράψε μου τι σε απασχολεί.</p><div className="actions"><a className="btn" href={'mailto:' + MAIL}>Νέο email</a><button className="btn ghost" onClick={() => copy(MAIL)}>Αντιγραφή</button></div></>}
       {way === 'quiz' && <><h2>Βρες τις ανάγκες σου</h2><p>Ένα ερωτηματολόγιο 5 βημάτων.</p><div className="actions"><a className="btn" href={QUIZ} target="_blank" rel="noreferrer">Ξεκίνα</a></div></>}
-      {way === 'form' && <form onSubmit={e => e.preventDefault()}>
-        <label>Όνομα<input autoComplete="name" /></label>
-        <label>Τηλέφωνο<input type="tel" autoComplete="tel" /></label>
-        <label>Μήνυμα<textarea rows={4} /></label>
-        <label className="check"><input type="checkbox" /><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου για να επικοινωνήσεις μαζί μου. <a href="#aporrito">Απόρρητο</a></span></label>
-        <button className="btn" disabled>Αποστολή</button>
-        <p className="small">Η φόρμα δεν στέλνει ακόμη μηνύματα. Θα ενεργοποιηθεί στη φάση 3.</p>
-      </form>}
       <p className="small" aria-live="polite">{copied}</p>
-    </div>
+    </div>}
   </>
 }
 
@@ -212,10 +205,31 @@ function Privacy() {
     <h2>Τα δικαιώματά σου</h2><p>Μπορείς να ζητήσεις να δεις, να διορθώσεις ή να διαγράψεις τα στοιχεία σου στο {MAIL}.</p></article>
 }
 
-export default function App() {
-  const [route, setRoute] = useState(read)
+export default function App({ initial }: { initial?: string }) {
+  const [route, setRoute] = useState(() => initial ?? keyFromPath(location.pathname))
   const [menu, setMenu] = useState(false)
-  useEffect(() => { const f = () => { setRoute(read()); setMenu(false); window.scrollTo(0, 0) }; addEventListener('hashchange', f); return () => removeEventListener('hashchange', f) }, [])
+  useEffect(() => {
+    const go = (key: string) => {
+      setRoute(key); setMenu(false); window.scrollTo(0, 0)
+      const m = meta(key); document.title = m.title
+      document.querySelector('meta[name=description]')?.setAttribute('content', m.description)
+    }
+    const old = location.hash.slice(1)
+    if (location.pathname === BASE && ROUTES.includes(old) && old !== 'arxiki') { history.replaceState(null, '', href(old)); go(old) }
+    const click = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+      const a = (e.target as Element).closest('a')
+      if (!a || a.target || a.hasAttribute('download')) return
+      const u = new URL(a.href)
+      if (u.origin !== location.origin || !u.pathname.startsWith(BASE) || u.hash) return
+      e.preventDefault()
+      if (u.pathname !== location.pathname) history.pushState(null, '', u.pathname)
+      go(keyFromPath(u.pathname))
+    }
+    const pop = () => go(keyFromPath(location.pathname))
+    document.addEventListener('click', click); addEventListener('popstate', pop)
+    return () => { document.removeEventListener('click', click); removeEventListener('popstate', pop) }
+  }, [])
   useEffect(() => {
     if (!menu) return
     const k = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false) }
@@ -226,15 +240,15 @@ export default function App() {
   return <>
     <div className="draft">Προεπισκόπηση · εκκρεμεί έγκριση πριν δημοσιευτεί</div>
     <header className={menu ? 'open' : undefined}><div className="pill">
-      <a className="brand" href="#arxiki"><img className="mark" src={mark} alt="" /><span><b>Κόλτσης Χρήστος</b><small>Insurance &amp; Financial Advisor</small></span></a>
-      <nav id="menu" aria-label="Κύριο μενού">{NAV.map(([k,l]) => <a key={k} href={'#' + k} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}</nav>
-      <a className="btn book" href="#rantevou">Ραντεβού</a>
+      <a className="brand" href={href('arxiki')}><img className="mark" src={mark} alt="" /><span><b>Κόλτσης Χρήστος</b><small>Insurance &amp; Financial Advisor</small></span></a>
+      <nav id="menu" aria-label="Κύριο μενού">{NAV.map(([k,l]) => <a key={k} href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}</nav>
+      <a className="btn book" href={href('rantevou')}>Ραντεβού</a>
       <button className="burger" aria-expanded={menu} aria-controls="menu" aria-label={menu ? 'Κλείσιμο μενού' : 'Άνοιγμα μενού'} onClick={() => setMenu(m => !m)}><i /><i /><i /></button>
     </div></header>
     <main className="wrap">
-      {route === 'ergaleia' ? <ToolsPage /> : route === 'syntaxi' ? <Pension /> : route === 'checkup' ? <Checkup /> : route === 'kefalaia' ? <Funds /> : route === 'konta' ? <Near /> : route === 'sxetika' ? <Home /> : route === 'programmata' ? <Programs /> : route === 'idiotes' ? <Individuals /> : route === 'epixeiriseis' ? <Business /> : route === 'rantevou' ? <Booking /> : route === 'blog' ? <><h1>Άρθρα</h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις.</p><Posts /></> :
+      {route === 'ergaleia' ? <ToolsPage /> : route === 'syntaxi' ? <Pension /> : route === 'checkup' ? <Checkup /> : route === 'kefalaia' ? <Funds /> : route === 'konta' ? <Near /> : route === 'programmata' ? <Programs /> : route === 'idiotes' ? <Individuals /> : route === 'epixeiriseis' ? <Business /> : route === 'rantevou' ? <Booking h1 /> : route === 'blog' ? <><h1>Άρθρα</h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις.</p><Posts /></> :
        route.startsWith('arthro-') ? <Article id={route.slice(7)} /> : route === 'epikoinonia' ? <Contact /> : route === 'aporrito' ? <Privacy /> : <Home />}
     </main>
-    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα</span><span><a href="#programmata">Προγράμματα</a> · <a href="#kefalaia">Κεφάλαια</a> · <a href="#sxetika">Σχετικά</a> · <a href="#aporrito">Πολιτική απορρήτου</a></span></div></footer>
+    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα</span><span><a href={href('programmata')}>Προγράμματα</a> · <a href={href('kefalaia')}>Κεφάλαια</a> · <a href={href('arxiki') + '#sxetika'}>Σχετικά</a> · <a href={href('aporrito')}>Πολιτική απορρήτου</a></span></div></footer>
   </>
 }
