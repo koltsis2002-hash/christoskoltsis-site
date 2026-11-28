@@ -5,21 +5,25 @@ import { TopicCard, type DeckKey } from './Decks'
 const eur = (n: number) => (isFinite(n) ? Math.round(n) : 0).toLocaleString('el-GR') + ' €'
 
 /* ---------- Σύνταξη, σε 3 βήματα ---------- */
+// The visitor gives both pension figures; the site never assumes what the state will pay
 export function Pension() {
   const [step, setStep] = useState(0)
-  const [age, setAge] = useState(35), [inc, setInc] = useState(1500), [want, setWant] = useState(80)
-  const RET = 67, STATE = 0.5, R = 0.04, INF = 0.02, RR = 0.03, END = 85
+  const [age, setAge] = useState(35), [state, setState] = useState(''), [want, setWant] = useState('')
+  const RET = 67, R = 0.04, INF = 0.02, RR = 0.03, END = 85
+  const st = Number(state) || 0, wa = Number(want) || 0
   const res = useMemo(() => {
-    const target = inc * want / 100, gap = Math.max(0, target - inc * STATE)
+    const gap = Math.max(0, wa - st)
     const real = (x: number) => (1 + x) / (1 + INF) - 1
     const ra = real(R) / 12, rd = real(RR) / 12, nRet = (END - RET) * 12, nAcc = Math.max(1, (RET - age) * 12)
     const capital = gap * (1 - Math.pow(1 + rd, -nRet)) / rd
-    return { target, gap, monthly: capital * ra / (Math.pow(1 + ra, nAcc) - 1), state: inc * STATE }
-  }, [age, inc, want])
+    return { gap, monthly: capital * ra / (Math.pow(1 + ra, nAcc) - 1) }
+  }, [age, st, wa])
+  const money = (v: string, set: (s: string) => void, id: string) => <label className="money-in" htmlFor={id}>
+    <input id={id} inputMode="numeric" placeholder="Γράψε ποσό" value={v} onChange={e => set(e.target.value.replace(/\D/g, '').slice(0, 5))} /><span>€ τον μήνα</span></label>
   const steps = [
-    { q: 'Πόσο χρονών είσαι;', v: `${age}`, u: 'ετών', node: <input type="range" min={20} max={62} value={age} onChange={e => setAge(+e.target.value)} /> },
-    { q: 'Πόσα βγάζεις καθαρά τον μήνα;', v: inc.toLocaleString('el-GR'), u: '€', node: <input type="range" min={600} max={5000} step={50} value={inc} onChange={e => setInc(+e.target.value)} /> },
-    { q: 'Στη σύνταξη, πόσο από αυτό θες να έχεις;', v: `${want}`, u: '%', node: <input type="range" min={50} max={100} step={5} value={want} onChange={e => setWant(+e.target.value)} /> },
+    { q: 'Πόσο χρονών είσαι;', ok: true, node: <><div className="bigval">{age}<small>ετών</small></div><div className="num-in"><input type="range" aria-label="Ηλικία" min={20} max={62} value={age} onChange={e => setAge(+e.target.value)} /></div></> },
+    { q: 'Πόση σύνταξη υπολογίζεις να παίρνεις από το κράτος;', hint: 'Γράψε το ποσό που περιμένεις εσύ. Αν δεν ξέρεις, βάλε μια δική σου εκτίμηση ή 0.', ok: state !== '', node: money(state, setState, 'pen-state') },
+    { q: 'Πόση σύνταξη θα ήθελες να παίρνεις;', hint: 'Το ποσό με το οποίο θα ζούσες άνετα, σε σημερινά χρήματα.', ok: want !== '', node: money(want, setWant, 'pen-want') },
   ]
   const done = step >= steps.length
   return <>
@@ -30,21 +34,23 @@ export function Pension() {
       <div className="dots">{steps.map((_, j) => <span key={j} className={j < step ? 'on' : j === step ? 'cur' : ''} />)}<span className={done ? 'cur' : ''} /></div>
       {!done ? <>
         <h2>{steps[step].q}</h2>
-        <div className="bigval">{steps[step].v}<small>{steps[step].u}</small></div>
-        <div className="num-in">{steps[step].node}</div>
-        <div className="actions">{step > 0 && <button className="btn ghost" onClick={() => setStep(step - 1)}>← Πίσω</button>}<button className="btn" onClick={() => setStep(step + 1)}>Επόμενο →</button></div>
+        {steps[step].hint && <p className="small">{steps[step].hint}</p>}
+        {steps[step].node}
+        <div className="actions">{step > 0 && <button className="btn ghost" onClick={() => setStep(step - 1)}>← Πίσω</button>}<button className="btn" disabled={!steps[step].ok} onClick={() => setStep(step + 1)}>Επόμενο →</button></div>
       </> : <>
         <h2>Το αποτέλεσμά σου</h2>
         <div className="pills3">
-          <div><small>Θέλεις</small><b>{eur(res.target)}</b><span>/μήνα</span></div>
-          <div><small>Κρατική (περίπου)</small><b>{eur(res.state)}</b><span>/μήνα</span></div>
+          <div><small>Θέλεις</small><b>{eur(wa)}</b><span>/μήνα</span></div>
+          <div><small>Από το κράτος (όπως το υπολογίζεις)</small><b>{eur(st)}</b><span>/μήνα</span></div>
           <div className="hot"><small>Βάλε στην άκρη</small><b>{eur(res.monthly)}</b><span>/μήνα</span></div>
         </div>
-        <p>Τόσο χρειάζεται κάθε μήνα από σήμερα μέχρι τα 67 σου, για να καλύψεις τα <b>{eur(res.gap)}</b> τον μήνα που λείπουν.</p>
+        {res.gap > 0
+          ? <p>Τόσο χρειάζεται κάθε μήνα από σήμερα μέχρι τα 67 σου, για να καλύψεις τα <b>{eur(res.gap)}</b> τον μήνα που λείπουν.</p>
+          : <p>Με όσα υπολογίζεις, η σύνταξη που θέλεις καλύπτεται. Αξίζει πάντως να το ξαναδούμε μαζί κάθε λίγα χρόνια.</p>}
         <div className="actions"><a className="btn" href={href('epikoinonia')}>Ας το σχεδιάσουμε μαζί</a><button className="btn ghost" onClick={() => setStep(0)}>Από την αρχή</button></div>
       </>}
     </div>
-    <p className="small disclaimer">Ενδεικτικός υπολογισμός με απλές παραδοχές: κρατική σύνταξη περίπου 50% του εισοδήματος, απόδοση 4%, πληθωρισμός 2%, κεφάλαιο που φτάνει ως τα 85. Ποσά σε σημερινά χρήματα. Δεν είναι επενδυτική συμβουλή και δεν εγγυάται αποδόσεις.</p>
+    <p className="small disclaimer">Ενδεικτικός υπολογισμός με απλές παραδοχές: απόδοση 4%, πληθωρισμός 2%, κεφάλαιο που φτάνει ως τα 85. Τα ποσά σύνταξης τα δίνεις εσύ. Ποσά σε σημερινά χρήματα. Δεν είναι επενδυτική συμβουλή και δεν εγγυάται αποδόσεις.</p>
   </>
 }
 

@@ -1,8 +1,8 @@
 import { type FormEvent, type ReactElement, useEffect, useRef, useState } from 'react'
 import { MOMENTS, POSTS } from './data'
 import cutout from './cutout.webp'
-import mark from './mark'
-import logo from './logo'
+import mark from './mark.webp'
+import logo from './logo.webp'
 import { useDepth, useFx } from './Fx'
 import { Pension, CoverMap, ToolsPage } from './Tools'
 import { QuizPage } from './Quiz'
@@ -54,7 +54,7 @@ function Home() {
         <p className="rise" style={{ ['--d' as string]: 7 }}>Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα. Σε ακούω πρώτα, σου εξηγώ απλά και αποφασίζεις εσύ.</p>
         <div className="actions rise" style={{ ['--d' as string]: 8 }}><a className="btn" href={href('epikoinonia')}>Πάρε με τηλέφωνο</a><a className="btn ghost" href={href('stigmes')}>Τι σε απασχολεί;</a></div>
       </div>
-      <figure className="cut"><span className="sig-w sig-l" aria-hidden="true">ΧΡΗΣΤΟΣ</span><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} /><span className="sig-w sig-r" aria-hidden="true">ΚΟΛΤΣΗΣ</span></figure>
+      <figure className="cut"><span className="sig-w sig-l" aria-hidden="true">ΧΡΗΣΤΟΣ</span><img src={cutout} alt="Ο Χρήστος Κόλτσης" width={447} height={897} fetchPriority="high" /><span className="sig-w sig-r" aria-hidden="true">ΚΟΛΤΣΗΣ</span></figure>
     </section>
 
     <section className="about2">
@@ -243,13 +243,13 @@ export default function App({ initial }: { initial?: string }) {
   return <>
     <div className="draft">Προεπισκόπηση · εκκρεμεί έγκριση πριν δημοσιευτεί</div>
     <header className={menu ? 'open' : undefined}><div className="pill">
-      <a className="brand" href={href('arxiki')}><img className="mark" src={mark} alt="" /><span><b>Κόλτσης Χρήστος</b><small>Insurance &amp; Financial Advisor</small></span></a>
+      <a className="brand" href={href('arxiki')}><img className="mark" src={mark} alt="" width={54} height={34} /><span><b>Χρήστος Κόλτσης</b><small>Insurance &amp; Financial Advisor</small></span></a>
       <nav id="menu" aria-label="Κύριο μενού">{NAV.map(([k, l]) => <a key={k} className="nav-topic" href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}
         <div className="nav-more">{MORE.map(([k, l]) => <a key={k} href={href(k)} aria-current={active === k ? 'page' : undefined} onClick={() => setMenu(false)}>{l}</a>)}</div></nav>
       <a className="btn book" href={href('epikoinonia')}>Σε παίρνω εγώ</a>
       <button className="burger" aria-expanded={menu} aria-controls="menu" aria-label={menu ? 'Κλείσιμο μενού' : 'Άνοιγμα μενού'} onClick={() => setMenu(m => !m)}><i /><i /><i /></button>
     </div></header>
     <main className="wrap">{page}</main>
-    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><nav className="flinks" aria-label="Περισσότερα">{[...NAV, ...MORE].map(([k, l]) => <a key={k} href={href(k)}>{l}</a>)}<a href={href('aporrito')}>Πολιτική απορρήτου</a></nav></div></footer>
+    <footer><div className="wrap"><img className="flogo" src={logo} alt="Χρήστος Κόλτσης · Insurance & Financial Advisor" width={200} height={145} loading="lazy" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><nav className="flinks" aria-label="Περισσότερα">{[...NAV, ...MORE].map(([k, l]) => <a key={k} href={href(k)}>{l}</a>)}<a href={href('aporrito')}>Πολιτική απορρήτου</a></nav></div></footer>
   </>
 }

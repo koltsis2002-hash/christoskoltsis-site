@@ -11,20 +11,52 @@ const abs = (p) => origin + p
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 
 const template = readFileSync('dist/index.html', 'utf8')
+// Links to Christos's profiles elsewhere (Google Business Profile, LinkedIn), so Google ties them to the site.
+// SITE_SAMEAS is a comma-separated list set in deploy.yml.
+const sameAs = (process.env.SITE_SAMEAS || '').split(',').map(s => s.trim()).filter(Boolean)
+const home = abs(BASE)
+const AREAS = [
+  { '@type': 'City', name: 'Έδεσσα' },
+  { '@type': 'AdministrativeArea', name: 'Πέλλα' },
+  { '@type': 'City', name: 'Θεσσαλονίκη' },
+  { '@type': 'AdministrativeArea', name: 'Κεντρική Μακεδονία' },
+]
+// City-level address only: no street address is published
+const address = { '@type': 'PostalAddress', addressLocality: 'Έδεσσα', addressRegion: 'Πέλλα', addressCountry: 'GR' }
 const person = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Χρήστος Κόλτσης',
-  alternateName: ['Christos Koltsis', 'Κόλτσης Χρήστος'],
-  jobTitle: 'Ασφαλιστικός & Χρηματοοικονομικός Σύμβουλος',
-  worksFor: { '@type': 'Organization', name: 'NN Hellas' },
-  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Πανεπιστήμιο Μακεδονίας' },
-  telephone: '+30 6989118348',
-  email: 'christos.koltsis@nnadvisors.gr',
-  address: { '@type': 'PostalAddress', addressLocality: 'Έδεσσα', addressRegion: 'Πέλλα', addressCountry: 'GR' },
-  areaServed: 'Βόρεια Ελλάδα',
-  url: abs(BASE),
-  image: abs(cutout),
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': home + '#christos',
+      name: 'Χρήστος Κόλτσης',
+      alternateName: ['Christos Koltsis', 'Κόλτσης Χρήστος'],
+      jobTitle: 'Ασφαλιστικός & Χρηματοοικονομικός Σύμβουλος',
+      worksFor: { '@type': 'Organization', name: 'NN Hellas' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Πανεπιστήμιο Μακεδονίας' },
+      telephone: '+30 6989118348',
+      email: 'christos.koltsis@nnadvisors.gr',
+      address,
+      url: home,
+      image: abs(cutout),
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+    {
+      '@type': 'InsuranceAgency',
+      '@id': home + '#office',
+      name: 'Χρήστος Κόλτσης',
+      description: 'Ασφαλιστικός και χρηματοοικονομικός σύμβουλος στην Έδεσσα: ασφάλεια υγείας, ζωής, αποταμίευση και σύνταξη, για ιδιώτες και επιχειρήσεις στη Βόρεια Ελλάδα.',
+      url: home,
+      telephone: '+30 6989118348',
+      email: 'christos.koltsis@nnadvisors.gr',
+      image: abs(cutout),
+      address,
+      areaServed: AREAS,
+      knowsLanguage: 'el',
+      founder: { '@id': home + '#christos' },
+      ...(sameAs.length ? { sameAs } : {}),
+    },
+  ],
 }
 
 function head(key) {

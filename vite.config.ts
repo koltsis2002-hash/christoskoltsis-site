@@ -10,7 +10,7 @@ export default defineConfig({
   build: process.env.VITE_HASH_ROUTES === 'true' ? { assetsInlineLimit: 1e8, outDir: 'dist-preview' } : {},
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
 });

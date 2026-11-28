@@ -405,3 +405,6 @@ em,i,blockquote{font-style:normal}
 .rv figcaption{font-size:14px;color:var(--muted);font-weight:600}.rv figcaption a{color:var(--ink)}.rv figcaption span{font-weight:400}
 .rv-invite{margin-top:14px;font-size:15px}.rv-invite a{color:var(--text);font-weight:700}
 .reviews .actions+.small{margin-top:10px}
+.money-in{display:flex;flex-direction:row;align-items:center;gap:10px;font-weight:600}
+.money-in input{max-width:220px;font-size:28px;font-weight:700;padding:10px 14px}
+.money-in span{color:var(--muted);font-weight:400}
