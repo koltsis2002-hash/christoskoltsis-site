@@ -300,7 +300,7 @@ header{background:linear-gradient(var(--bg) 75%,rgba(240,240,240,0))}
 .step-deck{margin-top:14px}
 .sav-deck.bare{display:flex;flex-direction:column;gap:16px;min-height:0;padding:16px 0 0;border-top:1px solid var(--line)}
 @media(max-width:600px){.step.open{flex-direction:column;gap:6px}.step.open .step-n{font-size:40px}}
-.deck-more{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));margin-top:18px}
+.deck-more{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:18px}
 .sav-deck{scroll-margin-top:100px}.step{scroll-margin-top:96px}
 /* ---- Arial, χωρίς πλάγια · θέματα ΥΓΕΙΑ / ΖΩΗ / ΑΠΟΤΑΜΙΕΥΣΗ ---- */
 em,i,blockquote{font-style:normal}
@@ -372,3 +372,6 @@ em,i,blockquote{font-style:normal}
 .need-res .rank{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
 .need-res ul{text-align:left;margin:4px 0 6px;padding-left:20px;font-size:16px;line-height:1.6}
 .quiz,.qz{scroll-margin-top:96px}
+/* Topic words scale with their card, so ΑΠΟΤΑΜΙΕΥΣΗ always fits inside (iPad: 3 cards in a row) */
+.deck-more .card,.need-res .card{container-type:inline-size}
+.deck-more .card .topic,.need-res .card .topic{font-size:clamp(22px,11.5cqi,40px);max-width:100%}
