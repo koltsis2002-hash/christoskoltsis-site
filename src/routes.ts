@@ -4,7 +4,7 @@ export const BASE = import.meta.env.BASE_URL
 // Preview builds (claude.ai artifact) can't use real paths, so pages switch on #key there
 export const HASH = import.meta.env.VITE_HASH_ROUTES === 'true'
 
-export const PAGES = ['arxiki', 'stigmes', 'ygeia', 'zoi', 'apotamieusi', 'ergaleia', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito'] as const
+export const PAGES = ['arxiki', 'stigmes', 'ygeia', 'zoi', 'apotamieusi', 'ergaleia', 'erotimatologio', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito'] as const
 export const ROUTES: string[] = [...PAGES, ...MOMENTS.map(m => 'stigmi-' + m.id), ...POSTS.map(p => 'arthro-' + p.id)]
 // Hash links from the earlier version of the site
 export const OLD: Record<string, string> = { idiotes: 'stigmes', epixeiriseis: 'stigmi-epixeirisi', programmata: 'stigmes', kefalaia: 'apotamieusi', konta: 'arthro-symvevlimeno', checkup: 'xartis', rantevou: 'epikoinonia', nosileia: 'ergaleia', 'arthro-efka': 'blog' }
@@ -40,6 +40,7 @@ const META: Record<string, Meta> = {
   zoi: { title: 'Πώς δουλεύει η ασφάλεια ζωής', description: 'Τι κάνει μια ασφάλεια ζωής για τους δικούς σου, πώς βρίσκεις πόσο κεφάλαιο χρειάζεσαι και γιατί συμφέρει από νωρίς. Με απλά λόγια.' },
   apotamieusi: { title: 'Πώς δουλεύει η αποταμίευση', description: 'Μια μικρή παρουσίαση με απλά λόγια: πώς ένα σταθερό ποσό κάθε μήνα γίνεται κεφάλαιο για τη σύνταξη ή για τα παιδιά.' },
   ergaleia: { title: 'Δωρεάν εργαλεία', description: 'Ο χάρτης της προστασίας σου, πόσο να βάζεις για τη σύνταξη και πώς δουλεύει η αποταμίευση. Μικρά, δωρεάν εργαλεία, χωρίς εγγραφή.' },
+  erotimatologio: { title: 'Τι χρειάζεσαι πραγματικά; Ερωτηματολόγιο αναγκών', description: 'Λίγες απλές ερωτήσεις, μία τη φορά: δες ποια ανάγκη σου έρχεται πρώτη, υγεία, ζωή ή αποταμίευση. Δωρεάν, χωρίς υποχρέωση.' },
   xartis: { title: 'Ο χάρτης της προστασίας σου', description: 'Έξι περιοχές, ένα πάτημα στην καθεμιά: δες αμέσως πού είσαι καλυμμένος και πού υπάρχουν κενά.' },
   syntaxi: { title: 'Πόσο να βάζω για τη σύνταξη;', description: 'Τρεις ερωτήσεις, μία τη φορά, και ένα νούμερο για κάθε μήνα από σήμερα, για να ζεις στη σύνταξη όπως θέλεις.' },
   blog: { title: 'Άρθρα', description: 'Μικρές, απλές εξηγήσεις για όσα αξίζει να ξέρεις πριν διαλέξεις ασφάλιση υγείας, ζωής ή σύνταξης.' },

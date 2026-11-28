@@ -3,7 +3,6 @@ import { href } from './routes'
 import { TopicCard, type DeckKey } from './Decks'
 
 const eur = (n: number) => (isFinite(n) ? Math.round(n) : 0).toLocaleString('el-GR') + ' €'
-export const QUIZ = 'https://koltsis2002-hash.github.io/--questionnaire/'
 
 /* ---------- Σύνταξη, σε 3 βήματα ---------- */
 export function Pension() {
@@ -76,7 +75,7 @@ export function ToolsPage() {
   const T: [string, string, string, string][] = [
     [href('xartis'), '1 λεπτό', 'Ο χάρτης της προστασίας σου', 'Έξι περιοχές, ένα πάτημα στην καθεμιά, και βλέπεις τα κενά σου.'],
     [href('syntaxi'), '3 ερωτήσεις', 'Πόσο να βάζω για τη σύνταξη', 'Ένα νούμερο για κάθε μήνα, από σήμερα.'],
-    [QUIZ, '5 βήματα', 'Ερωτηματολόγιο αναγκών', 'Οι ανάγκες σου και το κόστος για να τις καλύψεις.'],
+    [href('erotimatologio'), '5 λεπτά', 'Τι χρειάζεσαι πραγματικά;', 'Λίγες απλές ερωτήσεις, και βλέπεις ποια ανάγκη σου έρχεται πρώτη.'],
   ]
   return <>
     <span className="tag">Εργαλεία</span>

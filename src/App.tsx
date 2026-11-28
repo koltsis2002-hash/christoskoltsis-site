@@ -4,14 +4,15 @@ import cutout from './cutout.webp'
 import mark from './mark'
 import logo from './logo'
 import { useDepth, useFx } from './Fx'
-import { Pension, CoverMap, ToolsPage, QUIZ } from './Tools'
+import { Pension, CoverMap, ToolsPage } from './Tools'
+import { QuizPage } from './Quiz'
 import { DECKS, Deck, DeckPage, Topic, TopicCard, type DeckKey } from './Decks'
 import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './routes'
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
 const NAV = [['ygeia', 'ΥΓΕΙΑ'], ['zoi', 'ΖΩΗ'], ['apotamieusi', 'ΑΠΟΤΑΜΙΕΥΣΗ']]
-const MORE = [['stigmes', 'Στιγμές ζωής'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επικοινωνία']]
+const MORE = [['stigmes', 'Στιγμές ζωής'], ['erotimatologio', 'Ερωτηματολόγιο'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επικοινωνία']]
 const DECK_KEYS = Object.keys(DECKS) as DeckKey[]
 
 const ICON: Record<string, ReactElement> = {
@@ -71,7 +72,8 @@ function Home() {
 
     <h2 className="section">Πώς δουλεύει, με απλά λόγια</h2>
     <div className="deck-more">{DECK_KEYS.map(k => <TopicCard key={k} k={k} />)}</div>
-    <div className="grid two" style={{ marginTop: 14 }}>
+    <div className="grid" style={{ marginTop: 14 }}>
+      <a className="card" href={href('erotimatologio')}><span className="tag">5 λεπτά</span><h3>Τι χρειάζεσαι πραγματικά;</h3><p>Λίγες απλές ερωτήσεις, και βλέπεις ποια ανάγκη σου έρχεται πρώτη.</p><span className="more">Ξεκίνα →</span></a>
       <a className="card" href={href('xartis')}><span className="tag">1 λεπτό</span><h3>Ο χάρτης της προστασίας σου</h3><p>Έξι περιοχές, ένα πάτημα στην καθεμιά.</p><span className="more">Ξεκίνα →</span></a>
       <a className="card" href={href('syntaxi')}><span className="tag">3 ερωτήσεις</span><h3>Πόσο να βάζω για τη σύνταξη;</h3><p>Ένα νούμερο για κάθε μήνα, από σήμερα.</p><span className="more">Υπολόγισε →</span></a>
     </div>
@@ -111,6 +113,7 @@ function MomentPage({ id }: { id: string }) {
         {n.deck && open === j && <div id={'deck-' + j} className="step-deck"><Deck k={n.deck} bare /></div>}
       </div></article>)}</div>
     <p className="small disclaimer">Γενική ενημέρωση. Τι ακριβώς σου ταιριάζει εξαρτάται από την ηλικία, το εισόδημα και όσα ήδη έχεις.</p>
+    <a className="card band" href={href('erotimatologio')}><span className="tag">5 λεπτά</span><h2>Δεν ξέρεις από πού να ξεκινήσεις;</h2><p>Απάντησε σε λίγες απλές ερωτήσεις και δες ποια ανάγκη σου έρχεται πρώτη.</p><span className="more">Ξεκίνα το ερωτηματολόγιο →</span></a>
     <Callback topic={m.title} />
     <a className="card band" href={href('stigmi-' + next.id)}><span className="tag">Επόμενη στιγμή</span><h2>{next.title}</h2><p>{next.lead}</p><span className="more">Συνέχισε →</span></a>
   </>
@@ -185,7 +188,7 @@ function Article({ id }: { id: string }) {
 
 function Privacy() {
   return <article className="article"><h1>Πολιτική απορρήτου</h1><div className="note">Πρόχειρο. Χρειάζεται συμπλήρωση και έγκριση πριν δημοσιευτεί.</div>
-    <h2>Ποια στοιχεία ζητούνται</h2><p>Όνομα, τηλέφωνο, email, αν προτιμάς τηλεφώνημα ή βιντεοκλήση και ποιες μέρες και ώρες σε βολεύουν, μόνο όταν τα συμπληρώνεις στη φόρμα.</p>
+    <h2>Ποια στοιχεία ζητούνται</h2><p>Όνομα, τηλέφωνο, email, αν προτιμάς τηλεφώνημα ή βιντεοκλήση και ποιες μέρες και ώρες σε βολεύουν, μόνο όταν τα συμπληρώνεις στη φόρμα. Αν συμπληρώσεις το ερωτηματολόγιο, κρατάω και τις απαντήσεις σου (π.χ. ηλικία, οικογένεια, τι σε ανησυχεί), για να προετοιμάσω τη συζήτησή μας.</p>
     <h2>Για ποιον λόγο</h2><p>Για να επικοινωνήσω μαζί σου σχετικά με το αίτημά σου. Τα στοιχεία δεν χρησιμοποιούνται για τίποτε άλλο.</p>
     <h2>Τα δικαιώματά σου</h2><p>Μπορείς να ζητήσεις να δεις, να διορθώσεις ή να διαγράψεις τα στοιχεία σου στο {MAIL}.</p></article>
 }
@@ -224,7 +227,7 @@ export default function App({ initial }: { initial?: string }) {
   useFx(route)
   const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi'].includes(route) ? 'ergaleia' : route
   const page = route === 'stigmes' ? <Moments /> : route.startsWith('stigmi-') ? <MomentPage key={route} id={route.slice(7)} />
-    : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : DECK_KEYS.includes(route as DeckKey) ? <DeckPage k={route as DeckKey} />
+    : route === 'erotimatologio' ? <QuizPage /> : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : DECK_KEYS.includes(route as DeckKey) ? <DeckPage k={route as DeckKey} />
     : route === 'blog' ? <><span className="tag">Άρθρα</span><h1>Ασφάλεια, <em>με απλά λόγια</em></h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις πριν υπογράψεις.</p><Posts /></>
     : route.startsWith('arthro-') ? <Article id={route.slice(7)} />
     : route === 'epikoinonia' ? <><span className="tag">Επαφή</span><h1>Ας μιλήσουμε</h1><p className="lead">Ένα τηλεφώνημα, ένας καφές στην Έδεσσα ή μια βιντεοκλήση. Όπως σε βολεύει.</p><Callback /></>
@@ -239,6 +242,6 @@ export default function App({ initial }: { initial?: string }) {
       <button className="burger" aria-expanded={menu} aria-controls="menu" aria-label={menu ? 'Κλείσιμο μενού' : 'Άνοιγμα μενού'} onClick={() => setMenu(m => !m)}><i /><i /><i /></button>
     </div></header>
     <main className="wrap">{page}</main>
-    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><nav className="flinks" aria-label="Περισσότερα">{[...NAV, ...MORE].map(([k, l]) => <a key={k} href={href(k)}>{l}</a>)}<a href={QUIZ} target="_blank" rel="noreferrer">Ερωτηματολόγιο αναγκών</a><a href={href('aporrito')}>Πολιτική απορρήτου</a></nav></div></footer>
+    <footer><div className="wrap"><img className="flogo" src={logo} alt="Κόλτσης Χρήστος · Insurance & Financial Advisor" /><span>Ασφαλιστικός &amp; Χρηματοοικονομικός Σύμβουλος · NN Hellas</span><span>{PHONE} · {MAIL}</span><span>Έδεσσα · Βόρεια Ελλάδα</span><nav className="flinks" aria-label="Περισσότερα">{[...NAV, ...MORE].map(([k, l]) => <a key={k} href={href(k)}>{l}</a>)}<a href={href('aporrito')}>Πολιτική απορρήτου</a></nav></div></footer>
   </>
 }

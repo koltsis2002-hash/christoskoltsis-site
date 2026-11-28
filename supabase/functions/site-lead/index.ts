@@ -49,9 +49,15 @@ Deno.serve(async (req) => {
     consent: b.consent === true,
     source: clip(b.source, 40) || "site",
   };
+  // Το ερωτηματολόγιο ζητά υποχρεωτικά email· το τηλέφωνο είναι προαιρετικό
+  const quiz = lead.source === "erotimatologio";
   const digits = lead.phone.replace(/\D/g, "");
-  if (lead.name.length < 2 || digits.length < 10 || !lead.consent) return json({ ok: false, error: "invalid" }, 422, origin);
-  if (lead.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) return json({ ok: false, error: "invalid_email" }, 422, origin);
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email);
+  const phoneOk = quiz ? digits.length === 0 || digits.length >= 10 : digits.length >= 10;
+  if (lead.name.length < 2 || !phoneOk || !lead.consent || (quiz && !emailOk)) return json({ ok: false, error: "invalid" }, 422, origin);
+  if (lead.email && !emailOk) return json({ ok: false, error: "invalid_email" }, 422, origin);
+  const raw = quiz && b.answers && typeof b.answers === "object" ? JSON.stringify(b.answers) : "";
+  const answers = raw && raw.length <= 4000 ? JSON.parse(raw) : null;
 
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
   const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim();
@@ -64,7 +70,7 @@ Deno.serve(async (req) => {
     if ((count ?? 0) >= 5) return json({ ok: false, error: "rate" }, 429, origin);
   }
 
-  const { data, error } = await sb.from("site_leads").insert({ ...lead, ip_hash }).select("id").single();
+  const { data, error } = await sb.from("site_leads").insert({ ...lead, answers, ip_hash }).select("id").single();
   if (error) return json({ ok: false, error: "db" }, 500, origin);
 
   // Ειδοποίηση στο Telegram
@@ -72,9 +78,9 @@ Deno.serve(async (req) => {
   let tg = false;
   if (token && chat) {
     const lines = [
-      "🟠 <b>Νέο αίτημα από το σάιτ</b>",
+      quiz ? "🟠 <b>Νέο ερωτηματολόγιο από το σάιτ</b>" : "🟠 <b>Νέο αίτημα από το σάιτ</b>",
       `👤 ${esc(lead.name)}`,
-      `📞 ${esc(lead.phone)}`,
+      lead.phone && `📞 ${esc(lead.phone)}`,
       lead.email && `✉️ ${esc(lead.email)}`,
       lead.topic && `📌 ${esc(lead.topic)}`,
       (lead.meet || lead.pref_day || lead.pref_slot) && `🗓 ${esc([lead.meet, lead.pref_day, lead.pref_slot].filter(Boolean).join(" · "))}`,
