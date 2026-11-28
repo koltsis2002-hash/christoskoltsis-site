@@ -1,6 +1,7 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { href } from './routes'
 import { Topic, type DeckKey } from './Decks'
+import { ReviewLink } from './Reviews'
 
 const LEAD_URL = 'https://rcvdnisyznxhwdfakhfl.supabase.co/functions/v1/site-lead'
 const PHONE = '6989118348'
@@ -191,6 +192,7 @@ export function QuizPage() {
         <p>{sent === 'ok' ? (digits ? 'Έλαβα τις απαντήσεις σου και θα σε καλέσω σύντομα.' : 'Έλαβα τις απαντήσεις σου. Θα σου γράψω στο email σου, ή πάρε με όποτε θέλεις.')
           : `Οι απαντήσεις δεν έφτασαν σε μένα από εδώ. Πάρε με στο ${PHONE} και τα λέμε.`}</p>
         <div className="actions"><a className="btn" href={'tel:' + PHONE}>Πάρε με τηλέφωνο</a><a className="btn ghost" href={href('epikoinonia')}>Σε παίρνω εγώ</a><button className="btn ghost" onClick={restart}>Από την αρχή</button></div></div>
+      <ReviewLink />
     </div>
   }
 

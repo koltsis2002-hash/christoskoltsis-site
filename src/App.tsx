@@ -8,6 +8,7 @@ import { Pension, CoverMap, ToolsPage } from './Tools'
 import { QuizPage } from './Quiz'
 import { Articles } from './Articles'
 import { Grafo } from './Grafo'
+import { GoogleReviews } from './Reviews'
 import { postParam } from './posts'
 import { DECKS, Deck, DeckPage, Topic, TopicCard, type DeckKey } from './Decks'
 import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './routes'
@@ -82,6 +83,7 @@ function Home() {
     </div>
 
     <h2 className="section">Από το blog</h2><Posts n={3} />
+    <GoogleReviews />
     <Callback />
   </>
 }
@@ -236,7 +238,7 @@ export default function App({ initial }: { initial?: string }) {
     : route === 'blog' ? <Articles key={postId ?? 0} postId={postId} guides={<Posts />} />
     : route === 'grafo' ? <Grafo />
     : route.startsWith('arthro-') ? <Article id={route.slice(7)} />
-    : route === 'epikoinonia' ? <><span className="tag">Επαφή</span><h1>Ας μιλήσουμε</h1><p className="lead">Ένα τηλεφώνημα, ένας καφές στην Έδεσσα ή μια βιντεοκλήση. Όπως σε βολεύει.</p><Callback /></>
+    : route === 'epikoinonia' ? <><span className="tag">Επαφή</span><h1>Ας μιλήσουμε</h1><p className="lead">Ένα τηλεφώνημα, ένας καφές στην Έδεσσα ή μια βιντεοκλήση. Όπως σε βολεύει.</p><Callback /><GoogleReviews /></>
     : route === 'aporrito' ? <Privacy /> : <Home />
   return <>
     <div className="draft">Προεπισκόπηση · εκκρεμεί έγκριση πριν δημοσιευτεί</div>
