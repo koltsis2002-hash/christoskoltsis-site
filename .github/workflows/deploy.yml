@@ -30,7 +30,7 @@ jobs:
           SITE_BASE: /
           SITE_URL: https://christoskoltsis.gr
           # Comma-separated profile links for Google (Business Profile, LinkedIn).
-          SITE_SAMEAS: ''
+          SITE_SAMEAS: 'https://maps.app.goo.gl/aD2kr2K9VKemrfUd9'
           # Keep 'false' (hidden from Google) until the texts are approved (Phase 6).
           SITE_INDEX: 'false'
       - uses: actions/configure-pages@v5
