@@ -6,13 +6,16 @@ import logo from './logo'
 import { useDepth, useFx } from './Fx'
 import { Pension, CoverMap, ToolsPage } from './Tools'
 import { QuizPage } from './Quiz'
+import { Articles } from './Articles'
+import { Grafo } from './Grafo'
+import { postParam } from './posts'
 import { DECKS, Deck, DeckPage, Topic, TopicCard, type DeckKey } from './Decks'
 import { href, keyFromPath, currentKey, meta, BASE, HASH, OLD, ROUTES } from './routes'
 
 const PHONE = '6989118348'
 const MAIL = 'christos.koltsis@nnadvisors.gr'
-const NAV = [['ygeia', 'ΥΓΕΙΑ'], ['zoi', 'ΖΩΗ'], ['apotamieusi', 'ΑΠΟΤΑΜΙΕΥΣΗ']]
-const MORE = [['stigmes', 'Στιγμές ζωής'], ['erotimatologio', 'Ερωτηματολόγιο'], ['ergaleia', 'Εργαλεία'], ['blog', 'Άρθρα'], ['epikoinonia', 'Επικοινωνία']]
+const NAV = [['ygeia', 'ΥΓΕΙΑ'], ['zoi', 'ΖΩΗ'], ['apotamieusi', 'ΑΠΟΤΑΜΙΕΥΣΗ'], ['blog', 'ΑΡΘΡΑ']]
+const MORE = [['stigmes', 'Στιγμές ζωής'], ['erotimatologio', 'Ερωτηματολόγιο'], ['ergaleia', 'Εργαλεία'], ['epikoinonia', 'Επικοινωνία']]
 const DECK_KEYS = Object.keys(DECKS) as DeckKey[]
 
 const ICON: Record<string, ReactElement> = {
@@ -196,9 +199,11 @@ function Privacy() {
 export default function App({ initial }: { initial?: string }) {
   const [route, setRoute] = useState(() => initial ?? currentKey())
   const [menu, setMenu] = useState(false)
+  const [postId, setPostId] = useState<number | null>(null)
   useEffect(() => {
+    setPostId(postParam())
     const go = (key: string) => {
-      setRoute(key); setMenu(false); window.scrollTo(0, 0)
+      setRoute(key); setPostId(postParam()); setMenu(false); window.scrollTo(0, 0)
       const m = meta(key); document.title = m.title
       document.querySelector('meta[name=description]')?.setAttribute('content', m.description)
     }
@@ -212,7 +217,7 @@ export default function App({ initial }: { initial?: string }) {
       const u = new URL(a.href)
       if (u.origin !== location.origin || !u.pathname.startsWith(BASE) || u.hash) return
       e.preventDefault()
-      if (u.pathname !== location.pathname) history.pushState(null, '', u.pathname)
+      if (u.pathname + u.search !== location.pathname + location.search) history.pushState(null, '', u.pathname + u.search)
       go(keyFromPath(u.pathname))
     }
     const pop = () => go(keyFromPath(location.pathname))
@@ -228,7 +233,8 @@ export default function App({ initial }: { initial?: string }) {
   const active = route.startsWith('arthro-') ? 'blog' : route.startsWith('stigmi-') ? 'stigmes' : ['xartis', 'syntaxi'].includes(route) ? 'ergaleia' : route
   const page = route === 'stigmes' ? <Moments /> : route.startsWith('stigmi-') ? <MomentPage key={route} id={route.slice(7)} />
     : route === 'erotimatologio' ? <QuizPage /> : route === 'ergaleia' ? <ToolsPage /> : route === 'xartis' ? <CoverMap /> : route === 'syntaxi' ? <Pension /> : DECK_KEYS.includes(route as DeckKey) ? <DeckPage k={route as DeckKey} />
-    : route === 'blog' ? <><span className="tag">Άρθρα</span><h1>Ασφάλεια, <em>με απλά λόγια</em></h1><p className="lead">Μικρές εξηγήσεις για όσα αξίζει να ξέρεις πριν υπογράψεις.</p><Posts /></>
+    : route === 'blog' ? <Articles key={postId ?? 0} postId={postId} guides={<Posts />} />
+    : route === 'grafo' ? <Grafo />
     : route.startsWith('arthro-') ? <Article id={route.slice(7)} />
     : route === 'epikoinonia' ? <><span className="tag">Επαφή</span><h1>Ας μιλήσουμε</h1><p className="lead">Ένα τηλεφώνημα, ένας καφές στην Έδεσσα ή μια βιντεοκλήση. Όπως σε βολεύει.</p><Callback /></>
     : route === 'aporrito' ? <Privacy /> : <Home />

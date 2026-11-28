@@ -4,7 +4,9 @@ export const BASE = import.meta.env.BASE_URL
 // Preview builds (claude.ai artifact) can't use real paths, so pages switch on #key there
 export const HASH = import.meta.env.VITE_HASH_ROUTES === 'true'
 
-export const PAGES = ['arxiki', 'stigmes', 'ygeia', 'zoi', 'apotamieusi', 'ergaleia', 'erotimatologio', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito'] as const
+export const PAGES = ['arxiki', 'stigmes', 'ygeia', 'zoi', 'apotamieusi', 'ergaleia', 'erotimatologio', 'xartis', 'syntaxi', 'blog', 'epikoinonia', 'aporrito', 'grafo'] as const
+// Christos's own posting page: no menu link, not in the sitemap, never indexed
+export const PRIVATE = ['grafo']
 export const ROUTES: string[] = [...PAGES, ...MOMENTS.map(m => 'stigmi-' + m.id), ...POSTS.map(p => 'arthro-' + p.id)]
 // Hash links from the earlier version of the site
 export const OLD: Record<string, string> = { idiotes: 'stigmes', epixeiriseis: 'stigmi-epixeirisi', programmata: 'stigmes', kefalaia: 'apotamieusi', konta: 'arthro-symvevlimeno', checkup: 'xartis', rantevou: 'epikoinonia', nosileia: 'ergaleia', 'arthro-efka': 'blog' }
@@ -19,7 +21,7 @@ export const href = (key: string) => {
 
 export function currentKey() {
   if (!HASH) return keyFromPath(location.pathname)
-  const raw = location.hash.slice(1).split('#')[0], key = OLD[raw] ?? raw
+  const raw = location.hash.slice(1).split(/[#?]/)[0], key = OLD[raw] ?? raw
   return ROUTES.includes(key) ? key : 'arxiki'
 }
 
@@ -43,7 +45,8 @@ const META: Record<string, Meta> = {
   erotimatologio: { title: 'Τι χρειάζεσαι πραγματικά; Ερωτηματολόγιο αναγκών', description: 'Λίγες απλές ερωτήσεις, μία τη φορά: δες ποια ανάγκη σου έρχεται πρώτη, υγεία, ζωή ή αποταμίευση. Δωρεάν, χωρίς υποχρέωση.' },
   xartis: { title: 'Ο χάρτης της προστασίας σου', description: 'Έξι περιοχές, ένα πάτημα στην καθεμιά: δες αμέσως πού είσαι καλυμμένος και πού υπάρχουν κενά.' },
   syntaxi: { title: 'Πόσο να βάζω για τη σύνταξη;', description: 'Τρεις ερωτήσεις, μία τη φορά, και ένα νούμερο για κάθε μήνα από σήμερα, για να ζεις στη σύνταξη όπως θέλεις.' },
-  blog: { title: 'Άρθρα', description: 'Μικρές, απλές εξηγήσεις για όσα αξίζει να ξέρεις πριν διαλέξεις ασφάλιση υγείας, ζωής ή σύνταξης.' },
+  blog: { title: 'Άρθρα', description: 'Σκέψεις, νέα και μικρές, απλές εξηγήσεις από τον Χρήστο Κόλτση για όσα αξίζει να ξέρεις πριν διαλέξεις ασφάλιση υγείας, ζωής ή σύνταξης.' },
+  grafo: { title: 'Νέα δημοσίευση', description: 'Σελίδα δημοσιεύσεων του Χρήστου Κόλτση.' },
   epikoinonia: { title: 'Επικοινωνία', description: `Μίλα με τον ${NAME}: τηλέφωνο 6989118348 ή άφησε το τηλέφωνό σου και σε παίρνω εγώ, τηλεφωνικά ή με βιντεοκλήση.` },
   aporrito: { title: 'Πολιτική απορρήτου', description: 'Ποια στοιχεία ζητούνται στη φόρμα, για ποιον λόγο και πώς ζητάς να τα δεις, να τα διορθώσεις ή να τα διαγράψεις.' },
 }

@@ -1,7 +1,7 @@
 // Writes one ready-made HTML file per page (so search engines see the text and a proper title), plus sitemap.xml and robots.txt.
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs'
 import { dirname } from 'node:path'
-import { render, ROUTES, href, meta, cutout } from '../dist-ssr/entry-server.js'
+import { render, ROUTES, PRIVATE, href, meta, cutout } from '../dist-ssr/entry-server.js'
 
 const SITE = (process.env.SITE_URL || 'https://christoskoltsis.gr').replace(/\/$/, '')
 const INDEX = process.env.SITE_INDEX === 'true'
@@ -33,7 +33,7 @@ function head(key) {
     `<title>${esc(m.title)}</title>`,
     `<meta name="description" content="${esc(m.description)}" />`,
     `<link rel="canonical" href="${url}" />`,
-    `<meta name="robots" content="${INDEX ? 'index, follow' : 'noindex, nofollow'}" />`,
+    `<meta name="robots" content="${INDEX && !PRIVATE.includes(key) ? 'index, follow' : 'noindex, nofollow'}" />`,
     `<meta property="og:type" content="${key.startsWith('arthro-') ? 'article' : 'website'}" />`,
     `<meta property="og:locale" content="el_GR" />`,
     `<meta property="og:site_name" content="Χρήστος Κόλτσης" />`,
@@ -61,7 +61,7 @@ writeFileSync('dist/404.html', page('arxiki').replace(/<meta name="robots"[^>]*>
 
 writeFileSync('dist/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${ROUTES.map(k => `  <url><loc>${abs(href(k))}</loc></url>`).join('\n')}
+${ROUTES.filter(k => !PRIVATE.includes(k)).map(k => `  <url><loc>${abs(href(k))}</loc></url>`).join('\n')}
 </urlset>
 `)
 writeFileSync('dist/robots.txt', INDEX

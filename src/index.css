@@ -375,3 +375,19 @@ em,i,blockquote{font-style:normal}
 /* Topic words scale with their card, so ΑΠΟΤΑΜΙΕΥΣΗ always fits inside (iPad: 3 cards in a row) */
 .deck-more .card,.need-res .card{container-type:inline-size}
 .deck-more .card .topic,.need-res .card .topic{font-size:clamp(22px,11.5cqi,40px);max-width:100%}
+
+/* Άρθρα: δημοσιεύσεις του Χρήστου */
+.pcard{overflow:hidden;--pad:18px}
+.pcard img{display:block;width:calc(100% + 2*var(--pad,22px));max-width:none;margin:calc(-1*var(--pad,22px)) calc(-1*var(--pad,22px)) 4px;aspect-ratio:16/10;object-fit:cover;background:var(--fill)}
+.post-full img{display:block;width:100%;border-radius:18px;margin:6px 0 10px;max-height:70vh;object-fit:cover;background:var(--fill)}
+.grafo-form{display:flex;flex-direction:column;gap:14px;max-width:680px}
+.grafo-form textarea{width:100%;min-height:220px;padding:12px;border-radius:12px;border:1px solid transparent;background:var(--fill);font:inherit;line-height:1.55;resize:vertical}
+.grafo-form small{color:var(--muted);font-weight:400}
+.grafo-tabs{display:flex;gap:6px}
+.grafo-img img{display:block;max-width:100%;max-height:320px;border-radius:14px;object-fit:cover}
+.linkbtn{background:none;border:0;padding:0;color:var(--text);font:inherit;font-weight:600;text-decoration:underline;cursor:pointer;align-self:flex-start}
+.grafo-list{display:flex;flex-direction:column;gap:12px}
+.grafo-item{flex-direction:row;align-items:center;gap:14px}
+.grafo-item img{width:96px;height:72px;object-fit:cover;border-radius:10px;flex:none}
+.grafo-item h3{margin:4px 0 8px}
+@media(max-width:600px){.grafo-item{flex-direction:column;align-items:flex-start}.grafo-item img{width:100%;height:160px}}
